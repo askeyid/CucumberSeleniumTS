@@ -4,7 +4,7 @@ import { By } from 'selenium-webdriver'
 import { ScenarioWorld } from '../setup/world';
 
 Then(
-    /^the "([^"]*)" should contain the text "(.*)"$/,
+    /^the "(.*)" should contain the text "([^"]*)"$/,
     async function(this: ScenarioWorld, elementKey: string, expectedElementText: string) {
         const {
             screen: { driver }
@@ -24,7 +24,7 @@ Then(
             screen: { driver }
         } = this;
 
-        console.log(`the ${elementSelector} should be displayed`);
+        console.log(`\the ${elementSelector} should be displayed`);
         const element = await driver.findElement(By.css("[data-id='header-logo']"));
         expect(await element.isDisplayed()).to.be.true;
     }
