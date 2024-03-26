@@ -25,7 +25,9 @@ After(
         if (scenarioStatus === 'FAILED') {
             driver.takeScreenshot().then(
                 (image) => {
-                    fs.writeFileSync(`${env('SCREENSHOT_PATH')}${scenario.pickle.name}.png`, image, 'base64');
+                    this.attach(Buffer.from(image, 'base64'), 'image/png');
+                    // fs.mkdirSync(env('SCREENSHOT_PATH'));
+                    // fs.writeFileSync(`${env('SCREENSHOT_PATH')}${scenario.pickle.name}.png`, image, 'base64');
                 }
             )
         }

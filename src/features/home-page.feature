@@ -1,7 +1,14 @@
 Feature: As a user I expect to be able to navigate the home page
 
-    @dev
+    @dev @smoke @regression
     Scenario: As a user I expect to be able to see the contacts header
-        Given I am on the "Contacts" page
-        Then the "[data-id='contacts']" should contain the text "Contacts"
-        Then the "header logo" should be displayed
+        Given I am on the "<HEADER_CLASS>" page
+        Then the "<HEADER_ID>" should contain the text "<HEADER_TEXT>"
+        Then the "<HEADER_LOGO_DATA_ID>" should be displayed
+
+        Examples:
+            | HEADER_CLASS | HEADER_ID            | HEADER_TEXT | HEADER_LOGO_DATA_ID     |
+            | Contacts     | [data-id='contacts'] | Contacts    | [data-id='header-logo'] |
+            # | DUMMY        | [data-id='contacts'] | Contacts    | [data-id='header-logo'] |
+            | Contacts     | [data-id='DUMMY']    | Contacts    | [data-id='header-logo'] |
+            # | Contacts     | [data-id='contacts'] | Contacts    | [data-id='header-logo'] |
