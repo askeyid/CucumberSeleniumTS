@@ -6,7 +6,9 @@
   "scripts": {
     "transpile": "rimraf dist && babel --extensions .ts --out-dir dist src",
     "cucumber-compile": "yarn transpile && cucumber-js",
-    "cucumber": "yarn cucumber-compile"
+    "cucumber": "yarn cucumber-compile",
+    "precucumber": "rimraf reports && mkdir reports && echo {} > reports/report.json",
+    "postcucumber": "ts-node ./src/reporter/cucumber-report.ts"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +21,7 @@
     "@types/selenium-webdriver": "^4.1.22",
     "chai": "4.4.1",
     "chromedriver": "^123.0.0",
+    "cucumber-html-reporter": "^7.1.1",
     "dotenv": "^16.4.5",
     "geckodriver": "^4.3.3",
     "rimraf": "^5.0.5",

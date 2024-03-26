@@ -25,7 +25,7 @@ Then(
         } = this;
 
         console.log(`\the ${elementSelector} should be displayed`);
-        const element = await driver.findElement(By.css("[data-id='header-logo']"));
+        const element = await driver.findElement(By.css(`${elementSelector}`));
         expect(await element.isDisplayed()).to.be.true;
     }
 );
