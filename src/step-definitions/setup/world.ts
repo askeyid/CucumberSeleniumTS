@@ -3,6 +3,7 @@ import { World, IWorldOptions, setWorldConstructor } from '@cucumber/cucumber'
 import firefox from 'selenium-webdriver/firefox'
 import { Options } from 'selenium-webdriver/chrome'
 import { env } from '../../env/parseEnv'
+import { GlobalConfig } from '../../env/global'
 import { stringIsOfOptions } from '../../support/option-helper'
 
 export type Screen = {
@@ -12,9 +13,13 @@ export type Screen = {
 export class ScenarioWorld extends World {
     constructor(options: IWorldOptions) {
         super(options);
+
+        this.globalConfig = options.parameters as GlobalConfig;
     }
 
-    screen!: Screen
+    globalConfig: GlobalConfig;
+    
+    screen!: Screen;
 
     async init(): Promise<Screen> {
         const browser = await this.newBrowser();
