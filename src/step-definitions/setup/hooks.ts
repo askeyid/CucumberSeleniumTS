@@ -1,8 +1,9 @@
-import { Before, After } from "@cucumber/cucumber"
+import { Before, After, setDefaultTimeout } from "@cucumber/cucumber"
 import * as fs from "fs"
 import { ScenarioWorld } from "./world";
-import { env } from "../../env/parseEnv";
+import { env, envNumber } from "../../env/parseEnv";
 
+setDefaultTimeout(envNumber('SCRIPT_TIMEOUT'));
 
 Before(
     async function(this: ScenarioWorld, scenario) {
