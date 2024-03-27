@@ -8,10 +8,13 @@ Given(
     async function(this: ScenarioWorld, pageId: PageId) {
         const { 
             screen: { driver },
+            globalVariables,
             globalConfig
         } = this;
 
         console.log(`I am on the ${pageId} page`);
+
+        globalVariables.currentScreen = pageId;
         await navigateToPage(driver, pageId, globalConfig);
     }
 )

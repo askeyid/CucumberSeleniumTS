@@ -6,6 +6,11 @@ export const env = (key: string): string => {
     return value;
 }
 
+/**
+ * #AF: returns JSON object from file
+ * @param path path to file to read 
+ * @returns JSON object
+ */
 export const getJsonFromFile = <T = Record<string, string>>(path: string): T => {
     return require(`${process.cwd()}${path}`);
 }
