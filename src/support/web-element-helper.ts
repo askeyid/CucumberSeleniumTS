@@ -1,14 +1,16 @@
 import { WebDriver } from "selenium-webdriver";
-import { ElementKey, ElementLocator, GlobalConfig, GlobalVariables } from "../env/global";
+import { getCurrentPageId } from './navigation-behaviour';
+import { ElementKey, ElementLocator, GlobalConfig } from "../env/global";
 
 export const getElementLocator = async (
     driver: WebDriver,
     elementKey: ElementKey,
-    globalVariables: GlobalVariables,
     globalConfig: GlobalConfig
 ): Promise<ElementLocator> => {
     const { pageElementMappings } = globalConfig;
-    const currentPage = globalVariables.currentScreen;
+
+    const currentPage = await getCurrentPageId(driver, globalConfig);
+
     const elementIdentifier = pageElementMappings[currentPage]?.[elementKey] || pageElementMappings.common?.[elementKey];
 
     if (!elementIdentifier) {

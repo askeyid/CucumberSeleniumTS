@@ -1,6 +1,7 @@
 Feature: As a user I expect to be able to navigate the home page
 
-    @dev @smoke @regression
+    @dev
+    #@smoke @regression
     Scenario: As a user I expect to be able to see the contacts header
         Given I am on the "<PAGE_ID>" page
         Then the "<HEADER_ID>" should contain the text "<HEADER_TEXT>"

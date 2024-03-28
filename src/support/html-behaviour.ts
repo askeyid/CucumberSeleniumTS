@@ -29,3 +29,11 @@ export const getElementText = async (
     const elementText = await element?.getAttribute('innerText');
     return elementText;
 }
+
+export const clickElement = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator
+): Promise<void> => {
+    const element = await getElement(driver, elementIdentifier);
+    await element.click();
+}

@@ -10,13 +10,12 @@ Then(
     async function (this: ScenarioWorld, elementKey: ElementKey) {
         const {
             screen: { driver },
-            globalVariables,
             globalConfig
         } = this;
 
         console.log(`the ${elementKey} should be displayed`);
 
-        const elementIdentifier = await getElementLocator(driver, elementKey, globalVariables, globalConfig);
+        const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
         await waitFor(async () => {
             const isElementVisible = await elementDisplayed(driver, elementIdentifier);
