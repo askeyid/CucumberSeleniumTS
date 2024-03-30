@@ -1,5 +1,5 @@
 import { WebDriver } from "selenium-webdriver";
-import { GlobalConfig, PageId } from "../env/global";
+import { GlobalConfig, PageId, PagesConfig } from "../env/global";
 
 export const navigateToPage = async (
     driver: WebDriver,
@@ -19,4 +19,53 @@ export const navigateToPage = async (
     url.pathname = pageConfigItem.route;
 
     await driver.get(url.href);
+}
+
+export const currentPathMatchesPageId = async (
+    driver: WebDriver,
+    pageId: PageId,
+    globalConfig: GlobalConfig
+): Promise<boolean> => {
+    const currentURL: string = await driver.getCurrentUrl();
+    const {pathname: currentPath} = new URL(currentURL);
+
+    return pathMatchesPageId(currentPath, pageId, globalConfig);
+}
+
+const pathMatchesPageId = (
+    path: string,
+    pageId: PageId,
+    { pagesConfig }: GlobalConfig
+): boolean => {
+    const pageRegexString = pagesConfig[pageId].regex;
+    const pageRegex = new RegExp(pageRegexString);
+
+    return pageRegex.test(path);
+}
+
+export const getCurrentPageId = async (
+    driver: WebDriver,
+    globalConfig: GlobalConfig
+): Promise<PageId> => {
+
+    const { pagesConfig } = globalConfig;
+
+    const currentURL: string = await driver.getCurrentUrl();
+
+    const pageConfigPageIds = Object.keys(pagesConfig);
+
+    const { pathname: currentPath } = new URL(currentURL);
+
+    const currentPageId = pageConfigPageIds.find(pageId =>
+        pathMatchesPageId(currentPath, pageId, globalConfig)
+    );
+
+    if (!currentPageId) {
+        throw Error(
+            `🧨 Failed to get page name from current route ${currentPath}, \
+            possible pages: ${JSON.stringify(pagesConfig)} 🧨`
+        );
+    }
+
+    return currentPageId;
 }

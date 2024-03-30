@@ -10,13 +10,12 @@ Then(
     async function(this: ScenarioWorld, elementKey: ElementKey, expectedElementText: ExpectedElementText) {
         const {
             screen: { driver },
-            globalVariables,
             globalConfig
         } = this;
 
         console.log(`the ${elementKey} should contain the text ${expectedElementText}`);
 
-        const elementIdentifier = await getElementLocator(driver, elementKey, globalVariables, globalConfig);
+        const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
         await waitFor(async() => {
             const elementText = await getElementText(driver, elementIdentifier);

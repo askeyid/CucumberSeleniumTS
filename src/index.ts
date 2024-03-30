@@ -9,6 +9,7 @@ const hostsConfig: HostsConfig = getJsonFromFile(env('HOSTS_URLS_PATH'));
 const pagesConfig: PagesConfig = getJsonFromFile(env('PAGES_URLS_PATH'));
 const mappingFiles = fs.readdirSync(`${process.cwd()}${env('PAGE_ELEMENTS_PATH')}`);
 
+
 const pageElementMappings: PageElementMapping = mappingFiles.reduce(
         (pageElementConfigAcc, file) => {
                 const key = file.replace('.json', '');
@@ -22,9 +23,7 @@ const worldParameters: GlobalConfig = {
         hostsConfig,
         pagesConfig,
         pageElementMappings
-}
-
-// console.log('OBJ WORLD PARAMS:\n', worldParameters);
+};
 
 const common = `./src/features/**/*.feature \
         --require-module ts-node/register \
