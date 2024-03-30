@@ -12,15 +12,16 @@ Feature: As a user I expect to be able to create contacts
         And I fill in the "street" input with "Main Avenue"
         And I fill in the "city" input with "New-City"
         When I click the "save" button
+        
         Then I am directed to the "home" page
-        And I fill in the "search" input with "Smith"
+        And I fill in the "search" input with "Alex Smith"
         And the "contact" should be displayed
         And the "full name label" should contain the text "Name:"
-        And the "name" should contain the text "Alex Smith"
+        And the "name" should equal the text "Alex Smith"
         And the "gender label" should contain the text "Gender:"
-        And the "gender" should contain the text "Other"
+        And the "gender" should equal the text "Other"
         And the "address label" should contain the text "Address:"
-        And the "address" should contain the text "Main Avenue, New-City"
+        And the "address" should equal the text "Main Avenue, New-City"
         And the "edit" should be displayed
         And the "delete" should be displayed
         
