@@ -65,3 +65,15 @@ export const selectElementValue = async (
     const element = await getElementWithOptions(driver, elementIdentifier, option);
     await element.click();
 }
+
+export const elementChecked = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator
+): Promise<boolean | null> => {
+    try {
+        const element = await driver.findElement(By.css(elementIdentifier));
+        return await element.isSelected();
+    } catch (e) {
+        return false;
+    }
+}
