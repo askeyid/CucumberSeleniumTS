@@ -1,5 +1,5 @@
 import { WebDriver } from "selenium-webdriver";
-import { GlobalConfig, PageId, PagesConfig } from "../env/global";
+import { GlobalConfig, PageId } from "../env/global";
 
 export const navigateToPage = async (
     driver: WebDriver,

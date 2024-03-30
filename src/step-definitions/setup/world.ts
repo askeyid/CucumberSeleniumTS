@@ -3,7 +3,7 @@ import { World, IWorldOptions, setWorldConstructor } from '@cucumber/cucumber'
 import firefox from 'selenium-webdriver/firefox'
 import { Options } from 'selenium-webdriver/chrome'
 import { env } from '../../env/parseEnv'
-import { GlobalConfig, GlobalVariables } from '../../env/global'
+import { GlobalConfig } from '../../env/global'
 import { stringIsOfOptions } from '../../support/option-helper'
 
 export type Screen = {

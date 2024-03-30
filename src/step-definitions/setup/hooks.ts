@@ -3,7 +3,6 @@ import * as fs from "fs"
 import { ScenarioWorld } from "./world";
 import { env, envNumber } from "../../env/parseEnv";
 import { execSync } from 'child_process';
-import { wait } from "../../support/wait-for-behaviour";
 
 setDefaultTimeout(envNumber('SCRIPT_TIMEOUT'));
 
