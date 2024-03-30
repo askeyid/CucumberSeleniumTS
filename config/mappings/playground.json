@@ -1,0 +1,6 @@
+{
+    "female": "[value='female']",
+    "male": "[value='male']",
+    "female label": "[data-id='female-radio-button']",
+    "male label": "[data-id='male-radio-button']"
+}

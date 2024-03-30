@@ -1,5 +1,6 @@
 {
     "header logo": "[data-id='header-logo']",
     "name": "[data-id='name']",
-    "gender": "[data-id='gender']"
+    "gender": "[data-id='gender']",
+    "playground": "[data-id='playground-button']"
 }
