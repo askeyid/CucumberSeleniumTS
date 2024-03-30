@@ -49,20 +49,16 @@ export const getCurrentPageId = async (
 ): Promise<PageId> => {
 
     const { pagesConfig } = globalConfig;
-    console.log('pagesconfig: ', pagesConfig);
 
     const currentURL: string = await driver.getCurrentUrl();
 
     const pageConfigPageIds = Object.keys(pagesConfig);
-    console.log('pageConfigPageIds: ', pageConfigPageIds)
 
     const { pathname: currentPath } = new URL(currentURL);
-    console.log('currentPath: ', currentPath);
 
     const currentPageId = pageConfigPageIds.find(pageId =>
         pathMatchesPageId(currentPath, pageId, globalConfig)
     );
-    console.log('currentPageId: ', currentPageId);
 
     if (!currentPageId) {
         throw Error(

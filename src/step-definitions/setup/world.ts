@@ -47,12 +47,12 @@ export class ScenarioWorld extends World {
         switch(browser) {
             case 'chrome': {
                 const chromeBrowserOptions = new Options();
-                //chromeBrowserOptions.addArguments(env('BROWSER_ARGUMENTS'));
+                chromeBrowserOptions.addArguments(env('BROWSER_ARGUMENTS'));
                 return builder.forBrowser(browser).withCapabilities(chromeBrowserOptions);
             }
             case 'firefox': {
                 const firefoxBrowserOptions = new firefox.Options();
-                //firefoxBrowserOptions.addArguments(env('BROWSER_ARGUMENTS'));
+                firefoxBrowserOptions.addArguments(env('BROWSER_ARGUMENTS'));
                 firefoxBrowserOptions.set('acceptInsecureCerts', true);
                 return builder.forBrowser(browser).setFirefoxOptions(firefoxBrowserOptions);
             }

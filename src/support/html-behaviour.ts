@@ -1,5 +1,5 @@
 import { By, WebDriver, WebElement } from 'selenium-webdriver';
-import { ElementLocator } from '../env/global';
+import { ElementLocator, InputValue } from '../env/global';
 
 export const getElement = async (
     driver: WebDriver,
@@ -14,8 +14,8 @@ export const elementDisplayed = async (
     elementIdentifier: ElementLocator
 ) : Promise<boolean | null> => {
     try {
-        await driver.findElement(By.css(elementIdentifier));
-        return true;
+        const element = await driver.findElement(By.css(elementIdentifier));
+        return element.isDisplayed();
     } catch (e) {
         return false;
     }
@@ -35,5 +35,33 @@ export const clickElement = async (
     elementIdentifier: ElementLocator
 ): Promise<void> => {
     const element = await getElement(driver, elementIdentifier);
+    await element.click();
+}
+
+export const inputElementValue = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator,
+    inputValue: InputValue
+): Promise<void> => {
+    const element = await getElement(driver, elementIdentifier);
+    await element.clear();
+    await element.sendKeys(inputValue);
+}
+
+const getElementWithOptions = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator,
+    option: string
+): Promise<WebElement> => {
+    const element = await driver.findElement(By.css(`${elementIdentifier} > option[value=${option}]`));
+    return element;
+}
+
+export const selectElementValue = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator,
+    option: string
+): Promise<void> => {
+    const element = await getElementWithOptions(driver, elementIdentifier, option);
     await element.click();
 }

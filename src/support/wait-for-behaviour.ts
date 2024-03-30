@@ -32,3 +32,17 @@ export const waitForSelector = async (
         return false;
     }
 }
+
+export const wait = async (
+    ms: number = 3000
+): Promise<void> => {
+    console.log(`⏰ Running explicit waiting for ${ms}ms ⏰`);
+    try {
+        await waitFor(async () => false, { timeout: ms, wait: 1000});
+    } catch (error: any) {
+        const message = error.message as string;
+        if (!message.includes(`Wait time of ${ms}ms exceeded`)) {
+            throw error;
+        }
+    }
+}

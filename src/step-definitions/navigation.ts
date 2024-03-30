@@ -1,4 +1,4 @@
-import { Given, When } from '@cucumber/cucumber'
+import { Given, Then } from '@cucumber/cucumber'
 import { ScenarioWorld } from './setup/world';
 import { PageId } from '../env/global';
 import { currentPathMatchesPageId } from '../support/navigation-behaviour';
@@ -21,7 +21,7 @@ Given(
     }
 )
 
-When(
+Then(
     /^I am directed to the "([^"]*)" page$/,
     async function(this: ScenarioWorld, pageId: PageId) {
         const {
