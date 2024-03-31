@@ -1,8 +1,7 @@
-import { Before, After, setDefaultTimeout, AfterAll } from "@cucumber/cucumber"
+import { Before, After, setDefaultTimeout } from "@cucumber/cucumber"
 import * as fs from "fs"
 import { ScenarioWorld } from "./world";
 import { env, envNumber } from "../../env/parseEnv";
-import { execSync } from 'child_process';
 
 setDefaultTimeout(envNumber('SCRIPT_TIMEOUT'));
 
@@ -33,38 +32,9 @@ After(
                 }
             )
         }
+
         await driver.quit();
     }
 );
 
-AfterAll(killBrowsersProcesses);
-
-function killBrowsersProcesses(): void {
-    const browser = env('UI_AUTOMATION_BROWSER');
-
-    let process: string;
-
-    switch (browser) {
-        case 'chrome':
-            process = 'chromedriver';
-            break;
-        case 'firefox':
-            process = 'geckodriver';
-            break;
-        default:
-            throw Error('not implemented');                
-    }
-
-    try {
-        const tasklist = execSync('tasklist').toString();
-        const regex = new RegExp(`${process}\\..*`, 'g');
-        const matches = tasklist.match(regex);
-
-        if (matches && matches.length > 0) {
-            const stdout = execSync(`taskkill /f /im ${process}*`);
-            console.log(`\nKilling ${process} processes:\n${stdout}`);
-        }
-    } catch (error) {
-        console.error(`\nError: ${(error as Error).message}`)
-    }
-}
+// taskkill /f /im chromedriver*

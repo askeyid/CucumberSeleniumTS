@@ -7,5 +7,8 @@
     "The Godfather": "//*[text()='The Godfather']",
     "outlined required": "[id='outlined-required']",
     "outlined disabled": "[id='outlined-disabled']",
-    "outlined read only": "[id='outlined-read-only-input']"
+    "outlined read only": "[id='outlined-read-only-input']",
+    "validation label": "[id='outlined-error-helper-text-label']",
+    "validation error": "[id='outlined-error-helper-text-helper-text']",
+    "validation value": "[id='outlined-error-helper-text']"
 }

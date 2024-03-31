@@ -30,6 +30,8 @@ const common = `./src/features/**/*.feature \
         --require ./src/step-definitions/**/**/*.ts \
         -f json:./reports/report.json \
         --world-parameters ${JSON.stringify(worldParameters)} \
+        --parallel ${env('PARALLEL')} \
+        --retry ${env('RETRY')} \
         /*--format progress-bar*/ `;
 
 const dev = `${common} --tags '@dev'`,
