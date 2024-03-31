@@ -4,6 +4,7 @@ export type ElementLocator = string;
 export type InputValue = string;
 export type Negate = boolean;
 export type ExpectedElementText = string;
+export type ExpectedElementValue = string;
 export type PageElementMapping = Record<PageId, Record<ElementKey, ElementLocator>>
 export type PagesConfig = Record<PageId, Record<string, string>>;
 export type HostsConfig = Record<string, string>;

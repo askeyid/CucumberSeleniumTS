@@ -9,6 +9,14 @@ export const getElement = async (
     return element;
 }
 
+export const getElementWithText = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator
+): Promise<WebElement> => {
+    const element = await driver.findElement(By.xpath(elementIdentifier));
+    return element;
+}
+
 export const elementDisplayed = async (
     driver: WebDriver,
     elementIdentifier: ElementLocator
@@ -30,11 +38,28 @@ export const getElementText = async (
     return elementText;
 }
 
+export const getElementValue = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator
+): Promise<string | null> => {
+    const element = await getElement(driver, elementIdentifier);
+    const elementValue = await element?.getAttribute('value');
+    return elementValue;
+}
+
 export const clickElement = async (
     driver: WebDriver,
     elementIdentifier: ElementLocator
 ): Promise<void> => {
     const element = await getElement(driver, elementIdentifier);
+    await element.click();
+}
+
+export const clickElementWithText = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator
+): Promise<void> => {
+    const element = await getElementWithText(driver, elementIdentifier);
     await element.click();
 }
 
@@ -76,4 +101,25 @@ export const elementChecked = async (
     } catch (e) {
         return false;
     }
+}
+
+export const elementEnabled = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator
+): Promise<boolean | null> => {
+    const element = await getElement(driver, elementIdentifier);
+    if (!await element.isEnabled()) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+export const scrollElementIntoView = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator
+): Promise<void> => {
+    const element = await getElement(driver, elementIdentifier);
+    await driver.executeScript("arguments[0].scrollIntoView(false)", element);
+    await driver.sleep(1500);
 }

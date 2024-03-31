@@ -6,14 +6,14 @@ import { navigateToPage } from '../support/navigation-behaviour';
 import { waitFor } from '../support/wait-for-behaviour';
 
 Given(
-    /^I am on the "([^"]*)" page$/,
+    /^I navigate to the "([^"]*)" page$/,
     async function(this: ScenarioWorld, pageId: PageId) {
         const { 
             screen: { driver },
             globalConfig
         } = this;
 
-        console.log(`I am on the ${pageId} page`);
+        console.log(`I navigate to the ${pageId} page`);
 
         await navigateToPage(driver, pageId, globalConfig);
 

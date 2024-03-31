@@ -1,10 +1,9 @@
 Feature: As a user I expect to be able to create contacts
 
-    @dev
     @smoke
     @regression
     Scenario: As a user I expect to be able to create a new contact
-        Given I am on the "home" page
+        Given I navigate to the "home" page
         When I click the "create" button
         Then I am directed to the "create contact" page
         And the "create contact header" should contain the text "Create Contact"
@@ -27,31 +26,3 @@ Feature: As a user I expect to be able to create contacts
         And the "address" should equal the text "Main Avenue, New-City"
         And the "edit" should be displayed
         And the "delete" should be displayed
-        
-    @smoke
-    Scenario: As a user I expect to be able to create a new contact
-        Given I am on the "home" page
-        When I click the "create" button
-        Then I am directed to the "create contact" page
-        And the "create contact header" should contain the text "Create Contact"
-        Then I fill in the "name" input with "Alex Smith"
-        And I select the "Other" option from the "gender"
-        And I fill in the "phone" input with "0951234567"
-        And I fill in the "street" input with "Main Avenue"
-        And I fill in the "city" input with "New-City"
-        When I click the "save" button
-        Then I am directed to the "home" page
-
-    @smoke
-    Scenario: As a user I expect to be able to create a new contact
-        Given I am on the "home" page
-        When I click the "create" button
-        Then I am directed to the "create contact" page
-        Then the "create contact header" should contain the text "Create Contact"
-        Then I fill in the "name" input with "Alex Smith"
-        And I select the "Other" option from the "gender"
-        And I fill in the "phone" input with "0951234567"
-        And I fill in the "street" input with "Main Avenue"
-        And I fill in the "city" input with "New-City"
-        When I click the "save" button
-        Then I am directed to the "home" page
