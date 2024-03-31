@@ -3,7 +3,7 @@ Feature: As a user I can interact with radio buttons
     @smoke
     @regression
     Scenario: As a user I can interact and assert on radio buttons
-        Given I am on the "home" page
+        Given I navigate to the "home" page
         When I click the "playground" button
         Then I am directed to the "playground" page
         And the "female label" should contain the text "Female"
