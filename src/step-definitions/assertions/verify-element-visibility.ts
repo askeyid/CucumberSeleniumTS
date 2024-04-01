@@ -2,7 +2,7 @@ import { Then } from '@cucumber/cucumber'
 import { ScenarioWorld } from '../setup/world';
 import { ElementKey, Negate } from '../../env/global';
 import { getElementLocator } from '../../support/web-element-helper';
-import { waitFor } from '../../support/wait-for-behaviour';
+import { waitFor, waitForSelector } from '../../support/wait-for-behaviour';
 import { elementDisplayed, elementEnabled } from '../../support/html-behaviour';
 
 Then(
@@ -37,9 +37,15 @@ Then(
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
         await waitFor(async () => {
-            const isElementEnabled = await elementEnabled(driver, elementIdentifier);
-            return isElementEnabled ==! negate;
-        })
 
+            const elementStable = await waitForSelector(driver, elementIdentifier);
+
+            if (elementStable) {
+                const isElementEnabled = await elementEnabled(driver, elementIdentifier);
+                return isElementEnabled ==! negate;
+            }
+
+            return elementStable;
+        })
     }
 )
