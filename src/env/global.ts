@@ -4,6 +4,7 @@ export type ElementLocator = string;
 export type InputValue = string;
 export type IframeKey = string;
 export type Negate = boolean;
+export type PagePosition = string;
 export type ExpectedElementText = string;
 export type ExpectedElementValue = string;
 export type PageElementMapping = Record<PageId, Record<ElementKey, ElementLocator>>

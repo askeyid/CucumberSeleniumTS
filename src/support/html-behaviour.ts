@@ -130,3 +130,22 @@ export const switchIframe = async (
 ): Promise<void> => {
     await driver.switchTo().frame(driver.findElement(By.css(elementIframe)));
 }
+
+export const switchWindow = async (
+    driver: WebDriver,
+    pageIndex: number
+): Promise<void> => {
+    const winHandles = driver.getAllWindowHandles();
+    winHandles.then(function(handles) {
+        const currentWindow = handles[pageIndex];
+        driver.switchTo().window(currentWindow);
+    });
+}
+
+export const getTitleWithinPage = async (
+    driver: WebDriver,
+    pageIndex: number
+): Promise<string | null> => {
+    await switchWindow(driver, pageIndex);
+    return driver.getTitle();
+}
