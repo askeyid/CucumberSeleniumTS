@@ -22,7 +22,7 @@ After(
         } = this;
 
         const scenarioStatus = scenario.result?.status;
-        
+
         if (scenarioStatus === 'FAILED') {
             driver.takeScreenshot().then(
                 (image) => {
