@@ -6,7 +6,7 @@ import { getElementLocator } from '../support/web-element-helper';
 import { ElementKey } from '../env/global';
 
 When(
-    /^I click the "([^"]*)" button$/,
+    /^I click the "([^"]*)" (?:button|link)$/,
     async function (this: ScenarioWorld, elementKey: ElementKey) {
         const {
             screen: { driver },
