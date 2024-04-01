@@ -123,3 +123,10 @@ export const scrollElementIntoView = async (
     await driver.executeScript("arguments[0].scrollIntoView(false)", element);
     await driver.sleep(1500);
 }
+
+export const switchIframe = async (
+    driver: WebDriver,
+    elementIframe: ElementLocator
+): Promise<void> => {
+    await driver.switchTo().frame(driver.findElement(By.css(elementIframe)));
+}

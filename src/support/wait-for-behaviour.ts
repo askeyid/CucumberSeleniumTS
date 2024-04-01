@@ -1,5 +1,6 @@
 import { By, WebDriver } from "selenium-webdriver";
 import { ElementLocator } from "../env/global";
+import { switchIframe } from "./html-behaviour";
 
 export const waitFor = async<T>(
     predicate: () => T | Promise<T>,
@@ -40,6 +41,20 @@ export const waitForSelectorWithText = async (
     try {
         await driver.switchTo().defaultContent();
         await driver.findElement(By.xpath(elementIdentifier));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+export const waitForSelectorInFrame = async(
+    driver: WebDriver,
+    elementIframe: ElementLocator,
+    elementIdentifier: ElementLocator
+): Promise<boolean> => {
+    try {
+        await switchIframe(driver, elementIframe);
+        await driver.findElement(By.css(elementIdentifier));
         return true;
     } catch (e) {
         return false;

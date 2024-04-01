@@ -2,6 +2,7 @@ export type PageId = string;
 export type ElementKey = string;
 export type ElementLocator = string;
 export type InputValue = string;
+export type IframeKey = string;
 export type Negate = boolean;
 export type ExpectedElementText = string;
 export type ExpectedElementValue = string;
