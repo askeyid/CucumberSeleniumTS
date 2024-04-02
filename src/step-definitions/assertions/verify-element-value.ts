@@ -3,7 +3,7 @@ import { ScenarioWorld } from '../setup/world';
 import { ElementKey, ElementPosition, ExpectedElementText, ExpectedElementValue, Negate } from '../../env/global';
 import { getElementLocator } from '../../support/web-element-helper';
 import { waitFor, waitForSelector } from '../../support/wait-for-behaviour';
-import { getElementText, getElementTextAtIndex, getElementValue } from '../../support/html-behaviour';
+import { getAttributeText, getElementText, getElementTextAtIndex, getElementValue } from '../../support/html-behaviour';
 
 Then(
     /^the "([^"]*)" should( not)? contain the text "(.*)"$/,
@@ -134,5 +134,31 @@ Then(
 
             return elementStable;
         });
+    }
+)
+
+Then(
+    /^the "([^"]*)" "([^"]*)" attribute should( not)? contain the text "(.*)"$/,
+    async function(this: ScenarioWorld, elementKey: ElementKey, attribute: string, negate: Negate, expectedElementText: ExpectedElementText) {
+        const {
+            screen: { driver },
+            globalConfig
+        } = this;
+
+        console.log(`the ${elementKey} ${attribute} attribute should ${negate?'not ':''}contain the text ${expectedElementText}`);
+
+        const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
+
+        await waitFor( async () => {
+
+            const elementStable = await waitForSelector(driver, elementIdentifier);
+
+            if (elementStable) {
+                const attributeText = await getAttributeText(driver, elementIdentifier, attribute);
+                return attributeText?.includes(expectedElementText) === !negate;
+            }
+
+            return elementStable;
+        })
     }
 )

@@ -8,6 +8,7 @@ export type PagePosition = string;
 export type ElementPosition = string;
 export type ExpectedElementText = string;
 export type ExpectedElementValue = string;
+export type GlobalVariableKey = string;
 export type PageElementMapping = Record<PageId, Record<ElementKey, ElementLocator>>
 export type PagesConfig = Record<PageId, Record<string, string>>;
 export type HostsConfig = Record<string, string>;
