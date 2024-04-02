@@ -21,6 +21,7 @@
     "new window": "[data-id='open-window-button']",
     "primary": "[data-id='primary-button']",
     "secondary": "[data-id='secondary-button']",
-    "third": "[data-id='third-button']"
-
+    "third": "[data-id='third-button']",
+    "my button": "[data-id='my-button']",
+    "example": "[id='example']"
 }

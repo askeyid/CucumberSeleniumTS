@@ -34,6 +34,19 @@ export const waitForSelector = async (
     }
 }
 
+export const waitForSelectors = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator
+): Promise<boolean> => {
+    try {
+        await driver.switchTo().defaultContent();
+        await driver.findElements(By.css(elementIdentifier));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
 export const waitForSelectorWithText = async (
     driver: WebDriver,
     elementIdentifier: ElementLocator
