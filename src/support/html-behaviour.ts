@@ -1,5 +1,5 @@
 import { By, WebDriver, WebElement } from 'selenium-webdriver';
-import { ElementLocator, InputValue } from '../env/global';
+import { ElementIndex, ElementLocator, InputValue, PageIndex } from '../env/global';
 
 export const getElement = async (
     driver: WebDriver,
@@ -28,10 +28,23 @@ export const getElementWithText = async (
 export const elementDisplayed = async (
     driver: WebDriver,
     elementIdentifier: ElementLocator
-) : Promise<boolean | null> => {
+): Promise<boolean | null> => {
     try {
         const element = await driver.findElement(By.css(elementIdentifier));
         return element.isDisplayed();
+    } catch (e) {
+        return false;
+    }
+}
+
+export const elementDisplayedAtIndex = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator,
+    elementIndex: ElementIndex
+): Promise<boolean | null> => {
+    try {
+        const elements = await driver.findElements(By.css(elementIdentifier));
+        return elements[elementIndex].isDisplayed();
     } catch (e) {
         return false;
     }
@@ -49,10 +62,10 @@ export const getElementText = async (
 export const getElementTextAtIndex = async (
     driver: WebDriver,
     elementIdentifier: ElementLocator,
-    index: number
+    elementIndex: ElementIndex
 ): Promise<string | null> => {
     const elements = await getElements(driver, elementIdentifier);
-    return elements[index].getAttribute('innerText');
+    return elements[elementIndex].getAttribute('innerText');
 }
 
 export const getElementValue = async (
@@ -75,10 +88,10 @@ export const clickElement = async (
 export const clickElementAtIndex = async (
     driver: WebDriver,
     elementIdentifier: ElementLocator,
-    index: number
+    elementIndex: ElementIndex
 ): Promise<void> => {
     const elements = await getElements(driver, elementIdentifier);
-    await elements[index].click();
+    await elements[elementIndex].click();
 }
 
 export const clickElementWithText = async (
@@ -153,10 +166,10 @@ export const scrollElementIntoView = async (
 export const scrollElementIntoViewAtIndex = async (
     driver: WebDriver,
     elementIdentifier: ElementLocator,
-    index: number
+    elementIndex: ElementIndex
 ): Promise<void> => {
     const elements = await getElements(driver, elementIdentifier);
-    await driver.executeScript('arguments[0].scrollIntoView(false)', elements[index]);
+    await driver.executeScript('arguments[0].scrollIntoView(false)', elements[elementIndex]);
     await driver.sleep(1500);
 }
 
@@ -169,7 +182,7 @@ export const switchIframe = async (
 
 export const switchWindow = async (
     driver: WebDriver,
-    pageIndex: number
+    pageIndex: PageIndex
 ): Promise<void> => {
     const winHandles = driver.getAllWindowHandles();
     winHandles.then(function(handles) {
@@ -180,7 +193,7 @@ export const switchWindow = async (
 
 export const getTitleWithinPage = async (
     driver: WebDriver,
-    pageIndex: number
+    pageIndex: PageIndex
 ): Promise<string | null> => {
     await switchWindow(driver, pageIndex);
     return driver.getTitle();
