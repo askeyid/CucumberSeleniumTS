@@ -185,3 +185,34 @@ export const getTitleWithinPage = async (
     await switchWindow(driver, pageIndex);
     return driver.getTitle();
 }
+
+const retrieveTableData = (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator
+) => {
+    return new Promise((resolve) => {
+        const cell: string[] = [];
+        driver.findElement(By.css(elementIdentifier+' tbody')).then(async function (tableBody) {
+            tableBody.findElements(By.css('tr td')).then(async function (cells) {
+                for (let i = 0; i < cells.length; i++) {
+                    const cell_text = await cells[i].getText();
+                    cell.push(cell_text);
+                }
+                resolve(cell);
+            });
+        });
+    });
+}
+
+export const getTableData = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator
+): Promise<string> => {
+    const asyncFunction = [
+        await retrieveTableData(driver, elementIdentifier)
+    ]
+
+    const tableData = await Promise.all(asyncFunction);
+
+    return tableData.toString();
+}
