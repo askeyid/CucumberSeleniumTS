@@ -1,19 +1,19 @@
 import { When } from '@cucumber/cucumber';
 import { ScenarioWorld } from './setup/world';
-import { clickElement, clickElementWithText } from '../support/html-behaviour';
-import { waitFor, waitForSelector, waitForSelectorWithText } from '../support/wait-for-behaviour';
+import { clickElement, clickElementAtIndex, clickElementWithText } from '../support/html-behaviour';
+import { waitFor, waitForSelector, waitForSelectorWithText, waitForSelectors } from '../support/wait-for-behaviour';
 import { getElementLocator } from '../support/web-element-helper';
-import { ElementKey } from '../env/global';
+import { ElementKey, ElementPosition } from '../env/global';
 
 When(
-    /^I click the "([^"]*)" button$/,
+    /^I click the "([^"]*)" (?:button|link)$/,
     async function (this: ScenarioWorld, elementKey: ElementKey) {
         const {
             screen: { driver },
             globalConfig
         } = this;
 
-        console.log(`I click the ${elementKey} button`);
+        console.log(`I click the ${elementKey} button|link`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -22,6 +22,33 @@ When(
 
             if (elementStable) {
                 await clickElement(driver, elementIdentifier);
+            }
+
+            return elementStable;
+        });
+    }
+)
+
+When(
+    /^I click the ([0-9]+(?:st|nd|rd|th)) "([^"]*)" (?:button|link)$/,
+    async function(this: ScenarioWorld, elementPosition: ElementPosition, elementKey: ElementKey) {
+        const {
+            screen: { driver },
+            globalConfig
+        } = this;
+
+        console.log(`I click ${elementPosition} ${elementKey} button|link`);
+
+        const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
+
+        const elementIndex = Number(elementPosition.match(/\d/g)?.join('')) - 1;
+
+        await waitFor(async () => {
+
+            const elementStable = await waitForSelectors(driver, elementIdentifier);
+
+            if (elementStable) {
+                await clickElementAtIndex(driver, elementIdentifier, elementIndex);
             }
 
             return elementStable;

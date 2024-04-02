@@ -9,6 +9,14 @@ export const getElement = async (
     return element;
 }
 
+export const getElements = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator
+): Promise<WebElement[]> => {
+    const elements = await driver.findElements(By.css(elementIdentifier));
+    return elements;
+}
+
 export const getElementWithText = async (
     driver: WebDriver,
     elementIdentifier: ElementLocator
@@ -32,10 +40,19 @@ export const elementDisplayed = async (
 export const getElementText = async (
     driver: WebDriver,
     elementIdentifier: ElementLocator
-) : Promise<string | null> => {
+): Promise<string | null> => {
     const element = await getElement(driver, elementIdentifier);
     const elementText = await element?.getAttribute('innerText');
     return elementText;
+}
+
+export const getElementTextAtIndex = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator,
+    index: number
+): Promise<string | null> => {
+    const elements = await getElements(driver, elementIdentifier);
+    return elements[index].getAttribute('innerText');
 }
 
 export const getElementValue = async (
@@ -53,6 +70,15 @@ export const clickElement = async (
 ): Promise<void> => {
     const element = await getElement(driver, elementIdentifier);
     await element.click();
+}
+
+export const clickElementAtIndex = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator,
+    index: number
+): Promise<void> => {
+    const elements = await getElements(driver, elementIdentifier);
+    await elements[index].click();
 }
 
 export const clickElementWithText = async (
@@ -124,6 +150,16 @@ export const scrollElementIntoView = async (
     await driver.sleep(1500);
 }
 
+export const scrollElementIntoViewAtIndex = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator,
+    index: number
+): Promise<void> => {
+    const elements = await getElements(driver, elementIdentifier);
+    await driver.executeScript('arguments[0].scrollIntoView(false)', elements[index]);
+    await driver.sleep(1500);
+}
+
 export const switchIframe = async (
     driver: WebDriver,
     elementIframe: ElementLocator
@@ -148,4 +184,35 @@ export const getTitleWithinPage = async (
 ): Promise<string | null> => {
     await switchWindow(driver, pageIndex);
     return driver.getTitle();
+}
+
+const retrieveTableData = (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator
+) => {
+    return new Promise((resolve) => {
+        const cell: string[] = [];
+        driver.findElement(By.css(elementIdentifier+' tbody')).then(async function (tableBody) {
+            tableBody.findElements(By.css('tr td')).then(async function (cells) {
+                for (let i = 0; i < cells.length; i++) {
+                    const cell_text = await cells[i].getText();
+                    cell.push(cell_text);
+                }
+                resolve(cell);
+            });
+        });
+    });
+}
+
+export const getTableData = async (
+    driver: WebDriver,
+    elementIdentifier: ElementLocator
+): Promise<string> => {
+    const asyncFunction = [
+        await retrieveTableData(driver, elementIdentifier)
+    ]
+
+    const tableData = await Promise.all(asyncFunction);
+
+    return tableData.toString();
 }
