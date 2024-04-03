@@ -14,8 +14,7 @@ Then(
             globalConfig
         } = this;
         
-        const parsedInput = parseInput(inputValue, globalConfig);
-        console.log(`I fill in the ${elementKey} input with ${parsedInput}`);
+        console.log(`I fill in the ${elementKey} input with ${inputValue}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
     
@@ -23,6 +22,7 @@ Then(
             const elementStable = await waitForSelector(driver, elementIdentifier);
 
             if (elementStable) {
+                const parsedInput = parseInput(inputValue, globalConfig);
                 await inputElementValue(driver, elementIdentifier, parsedInput);
             }
 

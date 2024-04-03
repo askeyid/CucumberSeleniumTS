@@ -2,14 +2,14 @@ import { GlobalConfig } from "../env/global";
 
 export const parseInput = (input: string, config: GlobalConfig): string => {
     const lookupTrigger = process.env.VAR_LOOKUP_TRIGGER ?? '$.';
-    return isLoolupVariable(input, lookupTrigger) ? getLoolupVariable(input, lookupTrigger, config): input;
+    return isLookupVariable(input, lookupTrigger) ? getLookupVariable(input, lookupTrigger, config): input;
 }
 
-const isLoolupVariable = (input: string, lookupTrigger: string): boolean => {
+const isLookupVariable = (input: string, lookupTrigger: string): boolean => {
     return !!(lookupTrigger && input.startsWith(lookupTrigger));
 }
 
-const getLoolupVariable = (input: string, lookupTrigger: string, config: GlobalConfig): string => {
+const getLookupVariable = (input: string, lookupTrigger: string, config: GlobalConfig): string => {
     const key = input.substring(lookupTrigger.length);
     const lookupValue = config.emailsConfig[key] ?? process.env[key];
 

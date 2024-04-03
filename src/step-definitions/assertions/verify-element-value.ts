@@ -4,7 +4,6 @@ import { ElementKey, ElementPosition, ExpectedElementText, ExpectedElementValue,
 import { getElementLocator } from '../../support/web-element-helper';
 import { waitFor, waitForSelector } from '../../support/wait-for-behaviour';
 import { getAttributeText, getElementText, getElementTextAtIndex, getElementValue } from '../../support/html-behaviour';
-import { parseInput } from '../../support/input-helper';
 
 Then(
     /^the "([^"]*)" should( not)? contain the text "(.*)"$/,
@@ -66,8 +65,7 @@ Then(
             globalConfig
         } = this;
         
-        const parsedInput = parseInput(expectedElementValue, globalConfig);
-        console.log(`the ${elementKey} should${negate ? ' not' : ''} contain the value ${parsedInput}`);
+        console.log(`the ${elementKey} should${negate ? ' not' : ''} contain the value ${expectedElementValue}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -77,7 +75,7 @@ Then(
 
             if (elementStable) {
                 const elementValue = await getElementValue(driver, elementIdentifier);
-                return elementValue?.includes(parsedInput) === !negate;
+                return elementValue?.includes(expectedElementValue) === !negate;
             }
 
             return elementStable;
