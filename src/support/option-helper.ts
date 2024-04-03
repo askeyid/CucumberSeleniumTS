@@ -7,5 +7,5 @@ export const stringIsOfOptions = (stringLevel: string, options: readonly string[
         return stringLevel;
     } 
 
-    throw Error(`String ${stringLevel} needs to be one of ${options}`);
+    throw Error(`🧨 String ${stringLevel} needs to be one of ${options} 🧨`);
 }
