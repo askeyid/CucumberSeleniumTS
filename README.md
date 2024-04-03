@@ -14,7 +14,7 @@ start application
 
 `yarn run start`
 
-> Run Automation
+# Run Automation
 
 - On Mac (BASH)
 
