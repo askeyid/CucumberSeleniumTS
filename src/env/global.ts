@@ -14,10 +14,12 @@ export type GlobalVariableKey = string;
 export type PageElementMapping = Record<PageId, Record<ElementKey, ElementLocator>>
 export type PagesConfig = Record<PageId, Record<string, string>>;
 export type HostsConfig = Record<string, string>;
+export type EmailsConfig = Record<string, string>
 export type GlobalVariables = { [key: string]: string }
 
 export type GlobalConfig = {
     hostsConfig: HostsConfig;
     pagesConfig: PagesConfig;
     pageElementMappings: PageElementMapping
+    emailsConfig: EmailsConfig
 };
