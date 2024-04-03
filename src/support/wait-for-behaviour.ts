@@ -1,5 +1,5 @@
 import { By, WebDriver } from "selenium-webdriver";
-import { ElementLocator } from "../env/global";
+import { ElementLocator, PageIndex } from "../env/global";
 import { switchIframe, switchWindow } from "./html-behaviour";
 
 export const waitFor = async<T>(
@@ -77,7 +77,7 @@ export const waitForSelectorInFrame = async(
 export const waitForSelectorOnPage = async (
     driver: WebDriver,
     elementIdentifier: ElementLocator,
-    pageIndex: number
+    pageIndex: PageIndex
 ): Promise<boolean> => {
     try {
         await switchWindow(driver, pageIndex);
