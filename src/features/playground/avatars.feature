@@ -9,7 +9,5 @@ Feature: As a user I can interact with avatars
         And I scroll to the 1st "avatar" avatar
         Then the 1st "avatar" should be displayed
         Then the 2st "avatar" should be displayed
-        Then the 1st "small avatar" should be displayed
         Then the "small avatar" should be displayed
-        #When I click the 1st "avatar" link
         Then I should see 2 "avatar" be displayed
