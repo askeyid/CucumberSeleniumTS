@@ -4,7 +4,7 @@ import { ElementKey, ElementPosition, ExpectedElementText, ExpectedElementValue,
 import { getElementLocator } from '../../support/web-element-helper';
 import { waitFor, waitForSelector } from '../../support/wait-for-behaviour';
 import { getAttributeText, getElementText, getElementTextAtIndex, getElementValue } from '../../support/html-behaviour';
-import { parseInput } from '../../support/input-helper';
+import { logger } from '../../logger';
 
 Then(
     /^the "([^"]*)" should( not)? contain the text "(.*)"$/,
@@ -14,7 +14,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`the ${elementKey} should${negate ? ' not' : ''} contain the text ${expectedElementText}`);
+        logger.log(`the ${elementKey} should${negate ? ' not' : ''} contain the text ${expectedElementText}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -24,6 +24,8 @@ Then(
 
             if (elementStable) {
                 const elementText = await getElementText(driver, elementIdentifier);
+                logger.debug("elementText: ", elementText);
+                logger.debug("expectedElementText: ", expectedElementText);
                 return elementText?.includes(expectedElementText) === !negate;    
             }
 
@@ -40,7 +42,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`the ${elementKey} should${negate ? ' not' : ''} equal the text ${expectedElementText}`);
+        logger.log(`the ${elementKey} should${negate ? ' not' : ''} equal the text ${expectedElementText}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -66,8 +68,7 @@ Then(
             globalConfig
         } = this;
         
-        const parsedInput = parseInput(expectedElementValue, globalConfig);
-        console.log(`the ${elementKey} should${negate ? ' not' : ''} contain the value ${parsedInput}`);
+        logger.log(`the ${elementKey} should${negate ? ' not' : ''} contain the value ${expectedElementValue}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -77,7 +78,7 @@ Then(
 
             if (elementStable) {
                 const elementValue = await getElementValue(driver, elementIdentifier);
-                return elementValue?.includes(parsedInput) === !negate;
+                return elementValue?.includes(expectedElementValue) === !negate;
             }
 
             return elementStable;
@@ -93,7 +94,7 @@ Then(
             globalConfig
         } = this;
         
-        console.log(`the ${elementKey} should${negate ? ' not' : ''} contain the value ${expectedElementValue}`);
+        logger.log(`the ${elementKey} should${negate ? ' not' : ''} contain the value ${expectedElementValue}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -119,7 +120,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`the ${elementPosition} ${elementKey} should${negate ? ' not' : ''} contain the text ${expectedElementText}`);
+        logger.log(`the ${elementPosition} ${elementKey} should${negate ? ' not' : ''} contain the text ${expectedElementText}`);
     
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -147,7 +148,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`the ${elementKey} ${attribute} attribute should ${negate?'not ':''}contain the text ${expectedElementText}`);
+        logger.log(`the ${elementKey} ${attribute} attribute should ${negate?'not ':''}contain the text ${expectedElementText}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 

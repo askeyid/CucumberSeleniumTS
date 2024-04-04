@@ -4,6 +4,7 @@ import { ElementKey, Negate } from '../../env/global';
 import { getElementLocator } from '../../support/web-element-helper';
 import { waitFor, waitForSelector } from '../../support/wait-for-behaviour';
 import { getTableData } from '../../support/html-behaviour';
+import { logger } from '../../logger';
 
 Then(
     /^the "([^"]*)" table should( not)? equal the following:$/,
@@ -13,7 +14,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`the ${elementKey} table should ${negate?'not':''}equal the following:`);
+        logger.log(`the ${elementKey} table should ${negate?'not':''}equal the following:`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 

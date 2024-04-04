@@ -4,6 +4,7 @@ import { ElementKey, GlobalVariableKey, Negate } from '../../env/global';
 import { getElementLocator } from '../../support/web-element-helper';
 import { waitFor, waitForSelector } from '../../support/wait-for-behaviour';
 import { getElementText } from '../../support/html-behaviour';
+import { logger } from '../../logger';
 
 Then(
     /^the "([^"]*)" should( not)? equal the "([^"]*)" stored in global variables$/,
@@ -14,7 +15,7 @@ Then(
             globalVariables
         } = this;
 
-        console.log(`the ${elementKey} should ${negate?'not ':''}equal the ${this.globalVariables[globalVariableKey]} stored in global variables`);
+        logger.log(`the ${elementKey} should ${negate?'not ':''}equal the ${this.globalVariables[globalVariableKey]} stored in global variables`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -43,7 +44,7 @@ Then(
             globalVariables
         } = this;
 
-        console.log(`the ${elementKey} should contain ${negate?'not ':''}equal the ${this.globalVariables[globalVariableKey]} stored in global variables`);
+        logger.log(`the ${elementKey} should contain ${negate?'not ':''}equal the ${this.globalVariables[globalVariableKey]} stored in global variables`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 

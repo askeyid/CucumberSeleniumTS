@@ -4,6 +4,7 @@ import { ElementKey, ExpectedElementText, IframeKey, Negate } from '../../env/gl
 import { getElementLocator } from '../../support/web-element-helper';
 import { waitFor, waitForSelector, waitForSelectorInFrame } from '../../support/wait-for-behaviour';
 import { elementDisplayed, getElementText } from '../../support/html-behaviour';
+import { logger } from '../../logger';
 
 Then(
     /^the "([^"]*)" on the "([^"]*)" iframe should( not)? be displayed$/,
@@ -13,7 +14,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`the ${elementKey} on the ${iframeKey} iframe should ${negate?'not':''}be displayed`);
+        logger.log(`the ${elementKey} on the ${iframeKey} iframe should ${negate?'not':''}be displayed`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
         const iframeIdentifier = await getElementLocator(driver, iframeKey, globalConfig);
@@ -45,7 +46,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`the ${elementKey} on the ${iframeKey} should ${negate?'not ':''}contain the text ${expectedElementText}`);
+        logger.log(`the ${elementKey} on the ${iframeKey} should ${negate?'not ':''}contain the text ${expectedElementText}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
         const iframeIdentifier = await getElementLocator(driver, iframeKey, globalConfig);
@@ -73,7 +74,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`the ${elementKey} on the ${iframeKey} should ${negate?'not ':''}equal the text ${expectedElementText}`);
+        logger.log(`the ${elementKey} on the ${iframeKey} should ${negate?'not ':''}equal the text ${expectedElementText}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
         const iframeIdentifier = await getElementLocator(driver, iframeKey, globalConfig);

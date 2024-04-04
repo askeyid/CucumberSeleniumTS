@@ -2,14 +2,20 @@ Feature: As a user I can interact with inputs
 
     @smoke
     @regression
-    Scenario: As a user I can interact adn assert on autocomplere imputs
+    Scenario Outline: As a user I can interact and assert on autocomplete inputs
         Given I navigate to the "home" page
         When I click the "playground" button
         Then I am directed to the "playground" page
-        And I fill in the "movies" input with "The G"
-        When I click the element with text "The Godfather"
-        Then the "movies" should contain the value "The Godfather"
+        And I scroll to the "movies" input
+        And I fill in the "movies" input with "<search>"
+        When I click the element with text "<movie button>"
+        Then the "movies" should contain the value "<movie>"
         And the "movies" should not contain the value "The Godfather: Part II"
+
+        Examples:
+            | search | movie button    | movie           |
+            | The G  | The Godfather   | The Godfather   |
+            | The D  | The Dark Knight | The Dark Knight |
 
     @smoke
     @regression

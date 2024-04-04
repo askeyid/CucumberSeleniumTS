@@ -2,12 +2,13 @@ import { Before, After, setDefaultTimeout } from "@cucumber/cucumber"
 import * as fs from "fs"
 import { ScenarioWorld } from "./world";
 import { env, envNumber } from "../../env/parseEnv";
+import { logger } from "../../logger";
 
 setDefaultTimeout(envNumber('SCRIPT_TIMEOUT'));
 
 Before(
     async function(this: ScenarioWorld, scenario) {
-        console.log(`\nRunning scenario: "${scenario.pickle.name}"`)
+        logger.log(`\nRunning scenario: "${scenario.pickle.name}"`)
 
         const ready = await this.init();
 
@@ -27,8 +28,14 @@ After(
             driver.takeScreenshot().then(
                 (image) => {
                     this.attach(Buffer.from(image, 'base64'), 'image/png');
-                    fs.mkdirSync(env('SCREENSHOT_PATH'));
-                    fs.writeFileSync(`${env('SCREENSHOT_PATH')}${scenario.pickle.name}.png`, image, 'base64');
+                    
+                    const screenshotFolderPath = env('SCREENSHOT_PATH');
+
+                    if (!fs.existsSync(screenshotFolderPath)) {
+                        fs.mkdirSync(screenshotFolderPath);
+                    }
+
+                    fs.writeFileSync(`${env('SCREENSHOT_PATH')}${scenario.pickle.name}${new Date().toISOString().replace(/[:.]/g, '-')}.png`, image, 'base64');
                 }
             )
         }
