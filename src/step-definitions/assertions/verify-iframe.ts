@@ -34,7 +34,10 @@ Then(
 
                 return elementStable;
             }
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )
 
@@ -62,7 +65,10 @@ Then(
                     return elementText?.includes(expectedElementText);
                 }
             }
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )
 
@@ -90,6 +96,9 @@ Then(
                     return elementText === expectedElementText === !negate;
                 }
             }
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )

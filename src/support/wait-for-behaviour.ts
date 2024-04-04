@@ -1,25 +1,33 @@
 import { By, WebDriver } from "selenium-webdriver";
-import { ElementLocator, PageIndex } from "../env/global";
+import { ElementLocator, GlobalConfig, PageIndex, WaitForTarget, WaitForTargetType } from "../env/global";
 import { switchIframe, switchWindow } from "./html-behaviour";
 import { logger } from "../logger";
+import { envNumber } from "../env/parseEnv";
 
 export const waitFor = async<T>(
     predicate: () => T | Promise<T>,
-    options?: { timeout?: number; wait?: number }
-): Promise<T> => {
-    const { timeout = 10000, wait = 2000 } = options || {};
+    globalConfig: GlobalConfig,
+    options?: { timeout?: number; wait?: number; target?: WaitForTarget; type?: WaitForTargetType }
+): Promise<void> => {
+    const { 
+        timeout = envNumber('WAITFOR_TIMEOUT'), 
+        wait = envNumber('WAITFOR_POLL_WAIT'), 
+        target = '', 
+        type = 'element'
+    } = options || {};
+
     const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
     const startDate = new Date();
 
     while (new Date().getTime() - startDate.getTime() < timeout) {
         const result = await predicate();
-        if (result) return result;
+        if (result) return;
 
         await sleep(wait);
         logger.log(`Waiting ${wait}ms`);
     }
 
-    throw new Error(`Wait time of ${timeout}ms exceeded`);
+    throw new Error(`Wait time of ${timeout}ms for ${target} exceeded`);
 }
 
 export const waitForSelector = async (

@@ -26,6 +26,9 @@ When(
             }
 
             return elementStable;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )

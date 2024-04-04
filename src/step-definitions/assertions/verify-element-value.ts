@@ -30,7 +30,10 @@ Then(
             }
 
             return elementStable;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 );
 
@@ -56,7 +59,10 @@ Then(
             }
 
             return elementStable;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 );
 
@@ -82,7 +88,10 @@ Then(
             }
 
             return elementStable;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )
 
@@ -108,7 +117,10 @@ Then(
             }
 
             return elementStable;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )
 
@@ -136,7 +148,10 @@ Then(
             }
 
             return elementStable;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )
 
@@ -162,6 +177,9 @@ Then(
             }
 
             return elementStable;
-        })
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )

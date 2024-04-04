@@ -21,7 +21,10 @@ Then(
         await waitFor(async () => {
             const isElementVisible = await elementDisplayed(driver, elementIdentifier);
             return isElementVisible === !negate;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 );
 
@@ -42,7 +45,10 @@ Then(
         await waitFor(async () => {
             const isElementVisible = await elementDisplayedAtIndex(driver, elementIdentifier, index);
             return isElementVisible === !negate;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )
 
@@ -68,7 +74,10 @@ Then(
             }
 
             return elementStable;
-        })
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )
 
@@ -87,6 +96,9 @@ Then(
         await waitFor(async () => {
             const elements = await getElements(driver, elementIdentifier);
             return Number(count) === elements.length === !negate;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )

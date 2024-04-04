@@ -25,6 +25,9 @@ Then(
                 const tableData = await getTableData(driver, elementIdentifier);
                 return tableData === dataTable.raw().toString() === !negate;
             }
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )

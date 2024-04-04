@@ -26,7 +26,10 @@ When(
             }
 
             return elementStable;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )
 
@@ -53,7 +56,10 @@ When(
             }
 
             return elementStable;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )
 
@@ -77,6 +83,9 @@ When(
             }
 
             return elementStable;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )

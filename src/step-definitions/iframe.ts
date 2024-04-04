@@ -35,6 +35,9 @@ Then(
             }
 
             return iframeStable;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )

@@ -11,6 +11,7 @@ Then(
     async function (this: ScenarioWorld, pagePosition: PagePosition, negate: Negate, expectedTitle: string) {
         const {
             screen: { driver },
+            globalConfig
         } = this;
 
         logger.log(`the ${pagePosition} window|tab should ${negate?'not ':''}contain the title ${expectedTitle}`);
@@ -20,7 +21,10 @@ Then(
         await waitFor(async () => {
             const pageTitle = await getTitleWithinPage(driver, pageIndex);
             return pageTitle?.includes(expectedTitle) === !negate;
-        });
+        },
+            globalConfig,
+            { target: expectedTitle }
+        );
     }
 )
 
@@ -41,7 +45,10 @@ Then(
         await waitFor(async () => {
             const isElementVisible = await waitForSelectorOnPage(driver, elementIdentifier, pageIndex);
             return isElementVisible === !negate;
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )
 
@@ -67,7 +74,10 @@ Then(
                 const elementText = await getElementText(driver, elementIdentifier);
                 return elementText?.includes(expectedElementText) === !negate;
             }
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )
 
@@ -93,6 +103,9 @@ Then(
                 const elementText = await getElementText(driver, elementIdentifier);
                 return elementText === expectedElementText === !negate;
             }
-        });
+        },
+            globalConfig,
+            { target: elementKey }
+        );
     }
 )
