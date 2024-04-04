@@ -27,8 +27,14 @@ After(
             driver.takeScreenshot().then(
                 (image) => {
                     this.attach(Buffer.from(image, 'base64'), 'image/png');
-                    fs.mkdirSync(env('SCREENSHOT_PATH'));
-                    fs.writeFileSync(`${env('SCREENSHOT_PATH')}${scenario.pickle.name}.png`, image, 'base64');
+                    
+                    const screenshotFolderPath = env('SCREENSHOT_PATH');
+
+                    if (!fs.existsSync(screenshotFolderPath)) {
+                        fs.mkdirSync(screenshotFolderPath);
+                    }
+
+                    fs.writeFileSync(`${env('SCREENSHOT_PATH')}${scenario.pickle.name}${new Date().toISOString().replace(/[:.]/g, '-')}.png`, image, 'base64');
                 }
             )
         }

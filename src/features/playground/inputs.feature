@@ -2,10 +2,11 @@ Feature: As a user I can interact with inputs
 
     @smoke
     @regression
-    Scenario Outline: As a user I can interact adn assert on autocomplere imputs
+    Scenario Outline: As a user I can interact and assert on autocomplete inputs
         Given I navigate to the "home" page
         When I click the "playground" button
         Then I am directed to the "playground" page
+        And I scroll to the "movies" input
         And I fill in the "movies" input with "<search>"
         When I click the element with text "<movie button>"
         Then the "movies" should contain the value "<movie>"

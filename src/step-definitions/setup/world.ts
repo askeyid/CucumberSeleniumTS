@@ -2,7 +2,7 @@ import { Builder, WebDriver } from 'selenium-webdriver'
 import { World, IWorldOptions, setWorldConstructor } from '@cucumber/cucumber'
 import firefox from 'selenium-webdriver/firefox'
 import { Options } from 'selenium-webdriver/chrome'
-import { env } from '../../env/parseEnv'
+import { env, envNumber } from '../../env/parseEnv'
 import { GlobalConfig, GlobalVariables } from '../../env/global'
 import { stringIsOfOptions } from '../../support/option-helper'
 
@@ -29,11 +29,24 @@ export class ScenarioWorld extends World {
         const browser = await this.newBrowser();
         const browserBuilder = await this.browserBuilder(browser);
         const driver = browserBuilder.build();
-        await driver.manage().window().maximize();
+        const browserDimensions = await this.browserDimensions();
+        
+        if(Number.isNaN(browserDimensions.height) || Number.isNaN(browserDimensions.width)) {
+            await driver.manage().window().maximize();
+        } else {
+            await driver.manage().window().setRect(browserDimensions);
+        }
 
         this.screen = { driver }
         
         return this.screen;
+    }
+
+    private browserDimensions = async (): Promise<{ width: number; height: number }> => {
+        return {
+            width: envNumber('BROWSER_WIDTH'),
+            height: envNumber("BROWSER_HEIGHT")
+        }
     }
 
     private newBrowser = async(): Promise<string> => {

@@ -11,6 +11,7 @@ Feature: As a user I can interact with login forms
         And I fill in the "password" input with "$.TEST_PASSWORD"
         And the "email" should contain the value "admin@testingtalkshub.com.au"
         And the "password" should contain the value "<password>"
+        And I scroll to the "login form" form
         When I click the "login button" button
         And I click accept on the alert dialog
 
