@@ -4,6 +4,7 @@ import { inputElementValue } from '../support/html-behaviour';
 import { waitFor, waitForSelector, waitForSelectorInFrame } from '../support/wait-for-behaviour';
 import { getElementLocator } from '../support/web-element-helper';
 import { ElementKey, IframeKey, InputValue } from '../env/global';
+import { logger } from '../logger';
 
 Then(
     /^I fill in the "([^"]*)" input on the "([^"]*)" iframe with "([^"]*)"$/,
@@ -13,7 +14,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`I fill in the ${elementKey} input on the ${iframeKey} iframe with ${inputValue}`);
+        logger.log(`I fill in the ${elementKey} input on the ${iframeKey} iframe with ${inputValue}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
         const iframeIdentifier = await getElementLocator(driver, iframeKey, globalConfig);

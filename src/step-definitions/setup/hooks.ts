@@ -2,12 +2,13 @@ import { Before, After, setDefaultTimeout } from "@cucumber/cucumber"
 import * as fs from "fs"
 import { ScenarioWorld } from "./world";
 import { env, envNumber } from "../../env/parseEnv";
+import { logger } from "../../logger";
 
 setDefaultTimeout(envNumber('SCRIPT_TIMEOUT'));
 
 Before(
     async function(this: ScenarioWorld, scenario) {
-        console.log(`\nRunning scenario: "${scenario.pickle.name}"`)
+        logger.log(`\nRunning scenario: "${scenario.pickle.name}"`)
 
         const ready = await this.init();
 

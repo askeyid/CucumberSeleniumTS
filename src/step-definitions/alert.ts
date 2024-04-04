@@ -1,3 +1,4 @@
+import { logger } from '../logger';
 import { clickAcceptOnDialog, clickDismissOnDialog } from '../support/html-behaviour';
 import { ScenarioWorld } from './setup/world';
 import { When } from '@cucumber/cucumber'
@@ -9,7 +10,7 @@ When(
             screen: { driver }
         } = this;
 
-        console.log(`I click ${dismissDialog?'dismiss ':'accept '}on the alert dialog`);
+        logger.log(`I click ${dismissDialog?'dismiss ':'accept '}on the alert dialog`);
 
         if (dismissDialog) {
             await clickDismissOnDialog(driver);

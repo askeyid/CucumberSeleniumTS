@@ -4,6 +4,7 @@ import { ElementKey, ExpectedElementText, Negate, PagePosition } from '../../env
 import { getElementLocator } from '../../support/web-element-helper';
 import { waitFor, waitForSelectorOnPage } from '../../support/wait-for-behaviour';
 import { getElementText, getTitleWithinPage } from '../../support/html-behaviour';
+import { logger } from '../../logger';
 
 Then(
     /^the ([0-9]+(?:st|nd|rd|th)) (?:tab|window) should( not)? contain the title "(.*)"$/,
@@ -12,7 +13,7 @@ Then(
             screen: { driver },
         } = this;
 
-        console.log(`the ${pagePosition} window|tab should ${negate?'not ':''}contain the title ${expectedTitle}`);
+        logger.log(`the ${pagePosition} window|tab should ${negate?'not ':''}contain the title ${expectedTitle}`);
 
         const pageIndex = Number(pagePosition.match(/\d/g)?.join('')) - 1;
 
@@ -31,7 +32,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`the ${elementKey} on the ${pagePosition} window|tab should ${negate?'not ':''}be displayed`);
+        logger.log(`the ${elementKey} on the ${pagePosition} window|tab should ${negate?'not ':''}be displayed`);
    
         const pageIndex = Number(pagePosition.match(/\d/g)?.join('')) - 1;
 
@@ -52,7 +53,7 @@ Then(
             globalConfig
         } = this;
         
-        console.log(`the ${elementKey} on the ${pagePosition} window|tab should ${negate?'not ':''}contain the text ${expectedElementText}`);
+        logger.log(`the ${elementKey} on the ${pagePosition} window|tab should ${negate?'not ':''}contain the text ${expectedElementText}`);
 
         const pageIndex = Number(pagePosition.match(/\d/g)?.join('')) - 1;
 
@@ -78,7 +79,7 @@ Then(
             globalConfig
         } = this;
         
-        console.log(`the ${elementKey} on the ${pagePosition} window|tab should ${negate?'not ':''}contain the text ${expectedElementText}`);
+        logger.log(`the ${elementKey} on the ${pagePosition} window|tab should ${negate?'not ':''}contain the text ${expectedElementText}`);
 
         const pageIndex = Number(pagePosition.match(/\d/g)?.join('')) - 1;
 

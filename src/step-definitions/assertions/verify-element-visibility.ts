@@ -4,6 +4,7 @@ import { ElementKey, ElementPosition, Negate } from '../../env/global';
 import { getElementLocator } from '../../support/web-element-helper';
 import { waitFor, waitForSelector } from '../../support/wait-for-behaviour';
 import { elementDisplayed, elementDisplayedAtIndex, elementEnabled, getElements } from '../../support/html-behaviour';
+import { logger } from '../../logger';
 
 Then(
     /^the "([^"]*)" should( not)? be displayed$/,
@@ -13,7 +14,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`the ${elementKey} should${negate ? ' not' : ''} be displayed`);
+        logger.log(`the ${elementKey} should${negate ? ' not' : ''} be displayed`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -32,7 +33,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`the ${elementPosition} ${elementKey} should ${negate?'not ':''}be displayed`);
+        logger.log(`the ${elementPosition} ${elementKey} should ${negate?'not ':''}be displayed`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -53,7 +54,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`the ${elementKey} should${negate ? ' not' : ''} be enabled`);
+        logger.log(`the ${elementKey} should${negate ? ' not' : ''} be enabled`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -79,7 +80,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`I should ${negate?'not ':''} ${count} ${elementKey} should be displayed`);
+        logger.log(`I should ${negate?'not ':''} ${count} ${elementKey} should be displayed`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 

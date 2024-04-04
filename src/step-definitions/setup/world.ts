@@ -5,6 +5,7 @@ import { Options } from 'selenium-webdriver/chrome'
 import { env, envNumber } from '../../env/parseEnv'
 import { GlobalConfig, GlobalVariables } from '../../env/global'
 import { stringIsOfOptions } from '../../support/option-helper'
+import { logger } from '../../logger'
 
 export type Screen = {
     driver: WebDriver
@@ -57,7 +58,7 @@ export class ScenarioWorld extends World {
     }
 
     private browserBuilder = async(browser: string): Promise<Builder> => {
-        console.log(`Executing on ${browser} browser`);
+        logger.log(`Executing on ${browser} browser`);
         
         const builder = new Builder();
 

@@ -9,6 +9,5 @@ export const generateCucumberRuntimeTag = (
         .map(e => `(@${runtimeTag} and not @${e})`)
         .join(' and ');
     
-    console.log(`--tags '${tagExpression} and not @wip'`);
     return `${commonConfig} --tags '${tagExpression} and not @wip'`;
 }

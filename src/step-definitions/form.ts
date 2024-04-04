@@ -5,6 +5,7 @@ import { ScenarioWorld } from "./setup/world";
 import { ElementKey, InputValue } from "../env/global";
 import { inputElementValue, selectElementValue } from "../support/html-behaviour";
 import { parseInput } from "../support/input-helper";
+import { logger } from "../logger";
 
 Then(
     /^I fill in the "([^"]*)" input with "([^"]*)"$/,
@@ -14,7 +15,7 @@ Then(
             globalConfig
         } = this;
         
-        console.log(`I fill in the ${elementKey} input with ${inputValue}`);
+        logger.log(`I fill in the ${elementKey} input with ${inputValue}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
     
@@ -39,7 +40,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`I select the ${option} option from the ${elementKey}`);
+        logger.log(`I select the ${option} option from the ${elementKey}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 

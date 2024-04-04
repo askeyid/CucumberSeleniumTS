@@ -4,6 +4,7 @@ import { waitFor, waitForSelector, waitForSelectors } from '../support/wait-for-
 import { getElementLocator } from '../support/web-element-helper';
 import { ElementKey, ElementPosition } from '../env/global';
 import { scrollElementIntoView, scrollElementIntoViewAtIndex } from '../support/html-behaviour';
+import { logger } from '../logger';
 
 Then(
     /^I scroll to the "([^"]*)" (?:.*?)$/,
@@ -13,7 +14,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`I scroll to the ${elementKey}`);
+        logger.log(`I scroll to the ${elementKey}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -37,7 +38,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`I scroll to the ${elementPosition} ${elementKey}`);
+        logger.log(`I scroll to the ${elementPosition} ${elementKey}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 

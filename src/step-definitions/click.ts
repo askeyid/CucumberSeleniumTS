@@ -4,6 +4,7 @@ import { clickElement, clickElementAtIndex, clickElementWithText } from '../supp
 import { waitFor, waitForSelector, waitForSelectorWithText, waitForSelectors } from '../support/wait-for-behaviour';
 import { getElementLocator } from '../support/web-element-helper';
 import { ElementKey, ElementPosition } from '../env/global';
+import { logger } from '../logger';
 
 When(
     /^I click the "([^"]*)" (?:button|link)$/,
@@ -13,7 +14,7 @@ When(
             globalConfig
         } = this;
 
-        console.log(`I click the ${elementKey} button|link`);
+        logger.log(`I click the ${elementKey} button|link`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -37,7 +38,7 @@ When(
             globalConfig
         } = this;
 
-        console.log(`I click ${elementPosition} ${elementKey} button|link`);
+        logger.log(`I click ${elementPosition} ${elementKey} button|link`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
@@ -64,7 +65,7 @@ When(
             globalConfig
         } = this;
 
-        console.log(`I click the element with text ${elementKey}`);
+        logger.log(`I click the element with text ${elementKey}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 

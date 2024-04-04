@@ -1,5 +1,6 @@
 import { Then } from '@cucumber/cucumber'
 import { ScenarioWorld } from './setup/world'
+import { logger } from '../logger';
 
 Then(
     /^I sleep "([^"]*)" seconds?$/,
@@ -9,7 +10,7 @@ Then(
             screen: { driver }
         } = this;
 
-        console.log(`I wait ${waitSeconds} seconds`);
+        logger.log(`I wait ${waitSeconds} seconds`);
 
         await driver.sleep(parseInt(waitSeconds, 10) * 1000);
     }

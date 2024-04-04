@@ -4,6 +4,7 @@ import { ScenarioWorld } from '../setup/world';
 import { getElementLocator } from '../../support/web-element-helper';
 import { ElementKey, Negate } from '../../env/global';
 import { elementChecked } from '../../support/html-behaviour';
+import { logger } from '../../logger';
 
 Then(
     /^the "([^"]*)" (?:check box|radio button|switch) should( not)? be checked$/,
@@ -13,7 +14,7 @@ Then(
             globalConfig
         } = this;
 
-        console.log(`the ${elementKey} check box|radio button|switch should${negate ? ' not' : ''} be checked`);
+        logger.log(`the ${elementKey} check box|radio button|switch should${negate ? ' not' : ''} be checked`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
