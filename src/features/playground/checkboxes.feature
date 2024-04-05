@@ -7,7 +7,6 @@ Feature: As a user I can interract with checkboxes
         When I click the "playground" button
         Then I am directed to the "playground" page
         And I scroll to the "blue" checkbox
-        Then the "blue" check box should not be checked
         And the "red" check box should not be checked
         And the "blue" check box should not be checked
         And the "green" check box should not be checked

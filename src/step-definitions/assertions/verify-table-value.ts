@@ -2,7 +2,7 @@ import { Then, DataTable } from '@cucumber/cucumber'
 import { ScenarioWorld } from '../setup/world';
 import { ElementKey, Negate } from '../../env/global';
 import { getElementLocator } from '../../support/web-element-helper';
-import { waitFor, waitForSelector } from '../../support/wait-for-behaviour';
+import { WaitForResult, waitFor, waitForSelector } from '../../support/wait-for-behaviour';
 import { getTableData } from '../../support/html-behaviour';
 import { logger } from '../../logger';
 
@@ -23,11 +23,14 @@ Then(
 
             if (elementStable) {
                 const tableData = await getTableData(driver, elementIdentifier);
-                return tableData === dataTable.raw().toString() === !negate;
+                return (tableData === dataTable.raw().toString() === !negate) ? WaitForResult.PASS : WaitForResult.FAIL;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
         },
             globalConfig,
-            { target: elementKey }
+            { target: elementKey,
+            failureMessage: `🧨 Expected ${elementKey} table to ${negate?'not ':''}equal the following: 🧨` }
         );
     }
 )

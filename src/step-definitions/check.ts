@@ -1,7 +1,7 @@
 import { When } from '@cucumber/cucumber';
 import { ScenarioWorld } from './setup/world';
 import { clickElement } from '../support/html-behaviour';
-import { waitFor, waitForSelector } from '../support/wait-for-behaviour';
+import { WaitForResult, waitFor, waitForSelector } from '../support/wait-for-behaviour';
 import { getElementLocator } from '../support/web-element-helper';
 import { ElementKey } from '../env/global';
 import { logger } from '../logger';
@@ -23,9 +23,10 @@ When(
 
             if (elementStable) {
                 await clickElement(driver, elementIdentifier);
+                return WaitForResult.PASS;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
-
-            return elementStable;
         },
             globalConfig,
             { target: elementKey }

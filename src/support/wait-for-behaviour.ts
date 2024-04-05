@@ -4,10 +4,31 @@ import { switchIframe, switchWindow } from "./html-behaviour";
 import { logger } from "../logger";
 import { envNumber } from "../env/parseEnv";
 
-export const waitFor = async<T>(
-    predicate: () => T | Promise<T>,
+export const enum WaitForResult {
+    PASS = 1,
+    FAIL = 2,
+    ELEMENT_NOT_AVAILABLE = 3
+}
+
+export type WaitForResultWithContext = {
+    result: WaitForResult;
+    replace?: string;
+}
+
+export const waitFor = async(
+    predicate: () => 
+    | WaitForResult 
+    | Promise<WaitForResult> 
+    | WaitForResultWithContext 
+    | Promise<WaitForResultWithContext>,
     globalConfig: GlobalConfig,
-    options?: { timeout?: number; wait?: number; target?: WaitForTarget; type?: WaitForTargetType }
+    options?: { 
+        timeout?: number; 
+        wait?: number; 
+        target?: WaitForTarget; 
+        type?: WaitForTargetType;
+        failureMessage?: string
+    }
 ): Promise<void> => {
     const { 
         timeout = envNumber('WAITFOR_TIMEOUT'), 
@@ -18,16 +39,32 @@ export const waitFor = async<T>(
 
     const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
     const startDate = new Date();
+    let notAvailableContext: string | undefined;
+    let resultAs = WaitForResult.ELEMENT_NOT_AVAILABLE;
 
     while (new Date().getTime() - startDate.getTime() < timeout) {
         const result = await predicate();
-        if (result) return;
+        if ((result as WaitForResultWithContext).result) {
+            notAvailableContext = (result as WaitForResultWithContext).replace;
+            resultAs = (result as WaitForResultWithContext).result;
+        } else {
+            resultAs = result as WaitForResult
+        }
+
+        if (resultAs === WaitForResult.PASS) {
+            return;
+        }
 
         await sleep(wait);
         logger.log(`Waiting ${wait}ms`);
     }
 
-    throw new Error(`Wait time of ${timeout}ms for ${target} exceeded`);
+    const waitForErrorMsg =
+        resultAs === WaitForResult.ELEMENT_NOT_AVAILABLE
+        ? `🧨 Times out after ${timeout}ms waiting for the ${notAvailableContext || target} ${type} 🧨`
+        : options?.failureMessage || 'Test assertion failed';
+
+    throw new Error(waitForErrorMsg);
 }
 
 export const waitForSelector = async (

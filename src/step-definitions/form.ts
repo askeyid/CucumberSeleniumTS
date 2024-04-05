@@ -1,4 +1,4 @@
-import { waitFor, waitForSelector } from "../support/wait-for-behaviour";
+import { WaitForResult, waitFor, waitForSelector } from "../support/wait-for-behaviour";
 import { Then } from "@cucumber/cucumber";
 import { getElementLocator } from "../support/web-element-helper";
 import { ScenarioWorld } from "./setup/world";
@@ -25,9 +25,10 @@ Then(
             if (elementStable) {
                 const parsedInput = parseInput(inputValue, globalConfig);
                 await inputElementValue(driver, elementIdentifier, parsedInput);
+                return WaitForResult.PASS;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
-
-            return elementStable;
         },
             globalConfig,
             { target: elementKey }
@@ -52,9 +53,10 @@ Then(
 
             if (elementStable) {
                 await selectElementValue(driver, elementIdentifier, option);
+                return WaitForResult.PASS;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
-
-            return elementStable;
         },
             globalConfig,
             { target: elementKey }

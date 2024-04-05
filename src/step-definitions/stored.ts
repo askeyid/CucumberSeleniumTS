@@ -1,4 +1,4 @@
-import { waitFor, waitForSelector } from "../support/wait-for-behaviour";
+import { WaitForResult, waitFor, waitForSelector } from "../support/wait-for-behaviour";
 import { Then } from "@cucumber/cucumber";
 import { getElementLocator } from "../support/web-element-helper";
 import { ScenarioWorld } from "./setup/world";
@@ -27,10 +27,11 @@ Then(
                 const elementText = await getElementText(driver, elementIdentifier);
                 if (elementText != null) {
                     globalVariables[globalVariableKey] = elementText;
+                    return WaitForResult.PASS
                 }
             }
 
-            return elementStable;
+            return WaitForResult.ELEMENT_NOT_AVAILABLE;
         },
             globalConfig,
             { target: elementKey }

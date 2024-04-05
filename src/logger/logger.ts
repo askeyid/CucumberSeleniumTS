@@ -3,16 +3,18 @@ import { stringIsOfOptions } from "../support/option-helper";
 
 const DEBUG = 'debug';
 const LOG = 'log';
+const ERROR = 'error';
 const OFF = 'off';
 
-const LOG_LEVELS = [DEBUG, LOG, OFF] as const;
+const LOG_LEVELS = [DEBUG, LOG, ERROR, OFF] as const;
 export type LogLevel = typeof LOG_LEVELS[number];
 
 type LogFunction = (...msf: any[]) => void;
 
 type Logger = {
     debug: LogFunction;
-    log: LogFunction
+    log: LogFunction;
+    error: LogFunction
 };
 
 let loggerSingleton: (Logger | null) = null;

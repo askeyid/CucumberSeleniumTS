@@ -2,7 +2,7 @@ import { Then } from '@cucumber/cucumber'
 import { ScenarioWorld } from '../setup/world';
 import { ElementKey, ElementPosition, ExpectedElementText, ExpectedElementValue, Negate } from '../../env/global';
 import { getElementLocator } from '../../support/web-element-helper';
-import { waitFor, waitForSelector } from '../../support/wait-for-behaviour';
+import { WaitForResult, waitFor, waitForSelector } from '../../support/wait-for-behaviour';
 import { getAttributeText, getElementText, getElementTextAtIndex, getElementValue } from '../../support/html-behaviour';
 import { logger } from '../../logger';
 
@@ -24,15 +24,14 @@ Then(
 
             if (elementStable) {
                 const elementText = await getElementText(driver, elementIdentifier);
-                logger.debug("elementText: ", elementText);
-                logger.debug("expectedElementText: ", expectedElementText);
-                return elementText?.includes(expectedElementText) === !negate;    
+                return (elementText?.includes(expectedElementText) === !negate) ? WaitForResult.PASS : WaitForResult.FAIL;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
-
-            return elementStable;
         },
             globalConfig,
-            { target: elementKey }
+            { target: elementKey,
+                failureMessage: `🧨 Expected ${elementKey} to ${negate ? ' not' : ''}contain the text ${expectedElementText} 🧨` }
         );
     }
 );
@@ -50,18 +49,18 @@ Then(
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
         await waitFor(async() => {
-
             const elementStable = await waitForSelector(driver, elementIdentifier);
 
             if (elementStable) {
                 const elementText = await getElementText(driver, elementIdentifier);
-                return elementText === expectedElementText === !negate;
+                return (elementText === expectedElementText === !negate) ? WaitForResult.PASS : WaitForResult.FAIL;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
-
-            return elementStable;
         },
             globalConfig,
-            { target: elementKey }
+            { target: elementKey,
+                failureMessage: `🧨 Expected ${elementKey} to${negate ? ' not' : ''} equal the text ${expectedElementText} 🧨` }
         );
     }
 );
@@ -84,13 +83,14 @@ Then(
 
             if (elementStable) {
                 const elementValue = await getElementValue(driver, elementIdentifier);
-                return elementValue?.includes(expectedElementValue) === !negate;
+                return (elementValue?.includes(expectedElementValue) === !negate) ? WaitForResult.PASS : WaitForResult.FAIL;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
-
-            return elementStable;
         },
             globalConfig,
-            { target: elementKey }
+            { target: elementKey,
+                failureMessage: `🧨 Expected ${elementKey} to${negate ? ' not' : ''} contain the value ${expectedElementValue} 🧨` }
         );
     }
 )
@@ -103,23 +103,23 @@ Then(
             globalConfig
         } = this;
         
-        logger.log(`the ${elementKey} should${negate ? ' not' : ''} contain the value ${expectedElementValue}`);
+        logger.log(`the ${elementKey} should${negate ? ' not' : ''} equal the value ${expectedElementValue}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
         await waitFor(async() => {
-
             const elementStable = await waitForSelector(driver, elementIdentifier);
 
             if (elementStable) {
                 const elementValue = await getElementValue(driver, elementIdentifier);
-                return (elementValue === expectedElementValue) === !negate;
+                return (elementValue === expectedElementValue === !negate) ? WaitForResult.PASS : WaitForResult.FAIL;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
-
-            return elementStable;
         },
             globalConfig,
-            { target: elementKey }
+            { target: elementKey,
+                failureMessage: `🧨 Expected ${elementKey} to${negate ? ' not' : ''} equal the value ${expectedElementValue} 🧨` }
         );
     }
 )
@@ -139,18 +139,18 @@ Then(
         const elementIndex = Number(elementPosition.match(/\d/g)?.join('')) - 1;
 
         await waitFor(async () => {
-
             const elementStable = await waitForSelector(driver, elementIdentifier);
 
             if (elementStable) {
                 const elementText = await getElementTextAtIndex(driver, elementIdentifier, elementIndex);
-                return elementText?.includes(expectedElementText) === !negate;
+                return (elementText?.includes(expectedElementText) === !negate) ? WaitForResult.PASS : WaitForResult.FAIL;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
-
-            return elementStable;
         },
             globalConfig,
-            { target: elementKey }
+            { target: elementKey,
+                failureMessage: `🧨 Expected ${elementPosition} ${elementKey} to${negate ? ' not' : ''} contain the text ${expectedElementText} 🧨` }
         );
     }
 )
@@ -163,23 +163,23 @@ Then(
             globalConfig
         } = this;
 
-        logger.log(`the ${elementKey} ${attribute} attribute should ${negate?'not ':''}contain the text ${expectedElementText}`);
+        logger.log(`the ${elementKey} ${attribute} attribute should${negate?' not':''} contain the text ${expectedElementText}`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
         await waitFor( async () => {
-
             const elementStable = await waitForSelector(driver, elementIdentifier);
 
             if (elementStable) {
                 const attributeText = await getAttributeText(driver, elementIdentifier, attribute);
-                return attributeText?.includes(expectedElementText) === !negate;
+                return (attributeText?.includes(expectedElementText) === !negate) ? WaitForResult.PASS : WaitForResult.FAIL;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
-
-            return elementStable;
         },
             globalConfig,
-            { target: elementKey }
+            { target: elementKey,
+                failureMessage: `🧨 Expected ${elementKey} ${attribute} attribute to${negate?' not':''} contain the text ${expectedElementText} 🧨` }
         );
     }
 )

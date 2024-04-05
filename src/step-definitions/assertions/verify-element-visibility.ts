@@ -2,7 +2,7 @@ import { Then } from '@cucumber/cucumber'
 import { ScenarioWorld } from '../setup/world';
 import { ElementKey, ElementPosition, Negate } from '../../env/global';
 import { getElementLocator } from '../../support/web-element-helper';
-import { waitFor, waitForSelector } from '../../support/wait-for-behaviour';
+import { WaitForResult, waitFor, waitForSelector } from '../../support/wait-for-behaviour';
 import { elementDisplayed, elementDisplayedAtIndex, elementEnabled, getElements } from '../../support/html-behaviour';
 import { logger } from '../../logger';
 
@@ -20,10 +20,11 @@ Then(
 
         await waitFor(async () => {
             const isElementVisible = await elementDisplayed(driver, elementIdentifier);
-            return isElementVisible === !negate;
+            return (isElementVisible === !negate) ? WaitForResult.PASS : WaitForResult.ELEMENT_NOT_AVAILABLE;
         },
             globalConfig,
-            { target: elementKey }
+            { target: elementKey,
+                failureMessage: `🧨 Expected ${elementKey} to${negate ? ' not' : ''} be displayed 🧨` }
         );
     }
 );
@@ -44,10 +45,11 @@ Then(
 
         await waitFor(async () => {
             const isElementVisible = await elementDisplayedAtIndex(driver, elementIdentifier, index);
-            return isElementVisible === !negate;
+            return (isElementVisible === !negate) ? WaitForResult.PASS : WaitForResult.ELEMENT_NOT_AVAILABLE;
         },
             globalConfig,
-            { target: elementKey }
+            { target: elementKey,
+                failureMessage: `🧨 Expected ${elementPosition} ${elementKey} to ${negate?'not ':''}be displayed 🧨` }
         );
     }
 )
@@ -65,18 +67,18 @@ Then(
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
         await waitFor(async () => {
-
             const elementStable = await waitForSelector(driver, elementIdentifier);
 
             if (elementStable) {
                 const isElementEnabled = await elementEnabled(driver, elementIdentifier);
-                return isElementEnabled ==! negate;
+                return (isElementEnabled === !negate) ? WaitForResult.PASS : WaitForResult.FAIL;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
-
-            return elementStable;
         },
             globalConfig,
-            { target: elementKey }
+            { target: elementKey,
+                failureMessage: `🧨 Expected ${elementKey} to${negate ? ' not' : ''} be enabled 🧨` }
         );
     }
 )
@@ -89,16 +91,17 @@ Then(
             globalConfig
         } = this;
 
-        logger.log(`I should ${negate?'not ':''} ${count} ${elementKey} should be displayed`);
+        logger.log(`I should ${negate?'not ':''} see ${count} ${elementKey} be displayed`);
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
         await waitFor(async () => {
             const elements = await getElements(driver, elementIdentifier);
-            return Number(count) === elements.length === !negate;
+            return (Number(count) === elements.length === !negate) ? WaitForResult.PASS : WaitForResult.FAIL;
         },
             globalConfig,
-            { target: elementKey }
+            { target: elementKey,
+                failureMessage: `🧨 Expected ${count} ${elementKey} to ${negate?'not ':''}be displayed 🧨` }
         );
     }
 )
