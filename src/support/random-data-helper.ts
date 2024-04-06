@@ -1,0 +1,25 @@
+import { faker } from "@faker-js/faker";
+
+export const randomInputTypes = ['email', 'password'] as const;
+export type RandomInputType = typeof randomInputTypes[number];
+
+export const getRandomData = (
+    randomInputType: RandomInputType
+): string => {
+    switch (randomInputType) {
+        case 'email':
+            return randomEmail();
+        case 'password':
+            return randomPassword();
+        default:
+            return '';
+    }
+}
+
+export const randomEmail = (): string => {
+    return faker.internet.exampleEmail();
+}
+
+export const randomPassword = (): string => {
+    return faker.internet.password();
+}

@@ -1,6 +1,13 @@
 import { By, WebDriver, WebElement } from 'selenium-webdriver';
 import { ElementIndex, ElementLocator, InputValue, PageIndex } from '../env/global';
 
+export const browserSleep = async (
+    driver: WebDriver,
+    waitSeconds: string
+): Promise<void> => {
+    await driver.sleep(parseInt(waitSeconds, 10) * 1000);
+}
+
 export const getElement = async (
     driver: WebDriver,
     elementIdentifier: ElementLocator

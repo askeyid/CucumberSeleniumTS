@@ -1,7 +1,3 @@
 {
-    "create contact header": "[data-id='create-contact-header']",
-    "phone": "[data-id='phone']",
-    "street": "[data-id='street']",
-    "city": "[data-id='city']",
-    "save": "[data-id='save-button']"
+    "create contact header": "[data-id='create-contact-header']"
 }
