@@ -17,7 +17,7 @@ const getEnvList = (): string[] => {
         const envList = Object.keys(hostsConfig);
 
         if (envList.length === 0) {
-                throw Error(`No environment mapped in your ${env('HOSTS_URLS_PATH')}`);
+                throw Error(`🧨 No environment mapped in your ${env('HOSTS_URLS_PATH')} 🧨`);
         }
 
         return envList;

@@ -1,6 +1,7 @@
 import { Then } from '@cucumber/cucumber'
 import { ScenarioWorld } from './setup/world'
 import { logger } from '../logger';
+import { browserSleep } from '../support/html-behaviour';
 
 Then(
     /^I sleep "([^"]*)" seconds?$/,
@@ -12,6 +13,6 @@ Then(
 
         logger.log(`I wait ${waitSeconds} seconds`);
 
-        await driver.sleep(parseInt(waitSeconds, 10) * 1000);
+        await browserSleep(driver, waitSeconds);
     }
 )

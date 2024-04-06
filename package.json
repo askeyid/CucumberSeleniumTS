@@ -19,6 +19,7 @@
     "@babel/preset-env": "^7.24.3",
     "@babel/preset-typescript": "^7.24.1",
     "@cucumber/cucumber": "^10.3.1",
+    "@faker-js/faker": "^8.4.1",
     "@types/selenium-webdriver": "^4.1.22",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",

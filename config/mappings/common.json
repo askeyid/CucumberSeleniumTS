@@ -10,6 +10,13 @@
     "gender label": "[data-id='gender-label']",
     "address label": "[data-id='address-label']",
     "address": "[data-id='address']",
+    "phone": "[data-id='phone']",
+    "street": "[data-id='street']",
+    "city": "[data-id='city']",
+    "save": "[data-id='save-button']",
+    "cancel": "[data-id='cancel-button",
     "edit": "[data-id='edit-button']",
-    "delete": "[data-id='delete-button']"
+    "delete": "[data-id='delete-button']",
+    "no items message": "[data-id='no-items-message']",
+    "error message": "[data-id= 'error-message']"
 }
