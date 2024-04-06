@@ -18,4 +18,4 @@ export const getElementLocator = async (
     }
 
     return elementIdentifier;
-}
+} 

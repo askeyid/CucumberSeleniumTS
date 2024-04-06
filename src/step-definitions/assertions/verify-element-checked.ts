@@ -1,5 +1,5 @@
 import { Then } from '@cucumber/cucumber';
-import { waitFor, waitForSelector } from '../../support/wait-for-behaviour';
+import { WaitForResult, waitFor, waitForSelector } from '../../support/wait-for-behaviour';
 import { ScenarioWorld } from '../setup/world';
 import { getElementLocator } from '../../support/web-element-helper';
 import { ElementKey, Negate } from '../../env/global';
@@ -23,10 +23,14 @@ Then(
 
             if (elementStable) {
                 const isElementChecked = await elementChecked(driver, elementIdentifier);
-                return isElementChecked === !negate;
+                return isElementChecked === !negate ? WaitForResult.PASS : WaitForResult.FAIL;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
-
-            return elementStable;
-        });
+        },
+            globalConfig,
+            { target: elementKey,
+            failureMessage: `🧨 Expected ${elementKey} to ${negate?'not ':''}be checked 🧨` }
+        );
     }
 )

@@ -18,7 +18,10 @@ Given(
 
         await navigateToPage(driver, pageId, globalConfig);
 
-        await waitFor(() => currentPathMatchesPageId(driver, pageId, globalConfig));
+        await waitFor(() => currentPathMatchesPageId(driver, pageId, globalConfig), globalConfig, {
+            target: pageId,
+            type: 'page'
+        });
     }
 )
 
@@ -32,7 +35,10 @@ Then(
 
         logger.log(`I am directed to the ${pageId} page`);
 
-        await waitFor(() => currentPathMatchesPageId(driver, pageId, globalConfig));
+        await waitFor(() => currentPathMatchesPageId(driver, pageId, globalConfig), globalConfig, {
+            target: pageId,
+            type: 'page'
+        });
     }
 )
 
@@ -48,8 +54,10 @@ Given(
 
         await reloadPage(driver);
 
-        await waitFor(() => currentPathMatchesPageId(driver, pageId, globalConfig), {
-            timeout: 3000
+        await waitFor(() => currentPathMatchesPageId(driver, pageId, globalConfig), globalConfig, {
+            timeout: 30000,
+            target: pageId,
+            type: 'page'
         });
     }
 )

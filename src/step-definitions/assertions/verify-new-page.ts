@@ -2,7 +2,7 @@ import { Then } from '@cucumber/cucumber'
 import { ScenarioWorld } from '../setup/world';
 import { ElementKey, ExpectedElementText, Negate, PagePosition } from '../../env/global';
 import { getElementLocator } from '../../support/web-element-helper';
-import { waitFor, waitForSelectorOnPage } from '../../support/wait-for-behaviour';
+import { WaitForResult, waitFor, waitForSelectorOnPage } from '../../support/wait-for-behaviour';
 import { getElementText, getTitleWithinPage } from '../../support/html-behaviour';
 import { logger } from '../../logger';
 
@@ -11,6 +11,7 @@ Then(
     async function (this: ScenarioWorld, pagePosition: PagePosition, negate: Negate, expectedTitle: string) {
         const {
             screen: { driver },
+            globalConfig
         } = this;
 
         logger.log(`the ${pagePosition} window|tab should ${negate?'not ':''}contain the title ${expectedTitle}`);
@@ -19,8 +20,12 @@ Then(
 
         await waitFor(async () => {
             const pageTitle = await getTitleWithinPage(driver, pageIndex);
-            return pageTitle?.includes(expectedTitle) === !negate;
-        });
+            return (pageTitle?.includes(expectedTitle) === !negate) ? WaitForResult.PASS : WaitForResult.ELEMENT_NOT_AVAILABLE;
+        },
+            globalConfig,
+            { target: expectedTitle,
+                failureMessage: `🧨 Expected ${pagePosition} window|tab to ${negate?'not ':''}contain the title ${expectedTitle} 🧨` }
+        );
     }
 )
 
@@ -40,8 +45,12 @@ Then(
 
         await waitFor(async () => {
             const isElementVisible = await waitForSelectorOnPage(driver, elementIdentifier, pageIndex);
-            return isElementVisible === !negate;
-        });
+            return (isElementVisible === !negate) ? WaitForResult.PASS : WaitForResult.ELEMENT_NOT_AVAILABLE;
+        },
+            globalConfig,
+            { target: elementKey,
+                failureMessage: `🧨 Expected ${elementKey} on the ${pagePosition} window|tab to ${negate?'not ':''}be displayed 🧨` }
+        );
     }
 )
 
@@ -53,21 +62,26 @@ Then(
             globalConfig
         } = this;
         
-        logger.log(`the ${elementKey} on the ${pagePosition} window|tab should ${negate?'not ':''}contain the text ${expectedElementText}`);
+        logger.log(`the ${elementKey} on the ${pagePosition} window|tab to ${negate?'not ':''}contain the text ${expectedElementText}`);
 
         const pageIndex = Number(pagePosition.match(/\d/g)?.join('')) - 1;
 
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
         await waitFor(async () => {
-
             const elementStable = await waitForSelectorOnPage(driver, elementIdentifier, pageIndex);
 
             if (elementStable) {
                 const elementText = await getElementText(driver, elementIdentifier);
-                return elementText?.includes(expectedElementText) === !negate;
+                return (elementText?.includes(expectedElementText) === !negate) ? WaitForResult.PASS : WaitForResult.FAIL;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
-        });
+        },
+            globalConfig,
+            { target: elementKey,
+            failureMessage: `🧨 Expected ${elementKey} on the ${pagePosition} window|tab to ${negate?'not ':''}contain the text ${expectedElementText} 🧨` }
+        );
     }
 )
 
@@ -86,13 +100,18 @@ Then(
         const elementIdentifier = await getElementLocator(driver, elementKey, globalConfig);
 
         await waitFor(async () => {
-
             const elementStable = await waitForSelectorOnPage(driver, elementIdentifier, pageIndex);
 
             if (elementStable) {
                 const elementText = await getElementText(driver, elementIdentifier);
-                return elementText === expectedElementText === !negate;
+                return (elementText === expectedElementText === !negate) ? WaitForResult.PASS : WaitForResult.FAIL;
+            } else {
+                return WaitForResult.ELEMENT_NOT_AVAILABLE;
             }
-        });
+        },
+            globalConfig,
+            { target: elementKey,
+            failureMessage: `🧨 Expected ${elementKey} on the ${pagePosition} window|tab to ${negate?'not ':''}contain the text ${expectedElementText} 🧨` }
+        );
     }
 )

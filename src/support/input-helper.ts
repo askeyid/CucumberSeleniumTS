@@ -14,7 +14,7 @@ const getLookupVariable = (input: string, lookupTrigger: string, config: GlobalC
     const lookupValue = config.emailsConfig[key] ?? process.env[key];
 
     if (!lookupValue) {
-        throw Error(`🧨 Could not get ${input} lookup trigger 🧨`);
+        throw Error(`Could not get ${input} lookup trigger`);
     }
     
     return lookupValue;
