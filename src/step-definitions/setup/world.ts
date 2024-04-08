@@ -1,7 +1,7 @@
 import { Builder, WebDriver } from 'selenium-webdriver'
 import { World, IWorldOptions, setWorldConstructor } from '@cucumber/cucumber'
-import firefox from 'selenium-webdriver/firefox'
-import { Options } from 'selenium-webdriver/chrome'
+import { Options as FirefoxOptions } from 'selenium-webdriver/firefox'
+import { Options as ChromeOptions } from 'selenium-webdriver/chrome'
 import { env, envNumber } from '../../env/parseEnv'
 import { GlobalConfig, GlobalVariables } from '../../env/global'
 import { stringIsOfOptions } from '../../support/option-helper'
@@ -59,20 +59,26 @@ export class ScenarioWorld extends World {
 
     private browserBuilder = async(browser: string): Promise<Builder> => {
         logger.log(`Executing on ${browser} browser`);
+
+        let builder: Builder;
         
-        const builder = new Builder();
+        if (env('SELENIUM_GRID_ENABLED') === 'true') {
+            builder = new Builder().usingServer((env('SELENIUM_GRID_URL')));
+        } else {
+            builder = new Builder();
+        }
 
         switch(browser) {
             case 'chrome': {
-                const chromeBrowserOptions = new Options();
-                chromeBrowserOptions.addArguments(env('CHROME_BROWSER_ARGUMENTS'));
-                return builder.forBrowser(browser).withCapabilities(chromeBrowserOptions);
+                const chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments(env('CHROME_BROWSER_ARGUMENTS'));
+                return builder.forBrowser(browser).withCapabilities(chromeOptions);
             }
             case 'firefox': {
-                const firefoxBrowserOptions = new firefox.Options();
-                firefoxBrowserOptions.addArguments(env('FIREFOX_BROWSER_ARGUMENTS'));
-                firefoxBrowserOptions.set('acceptInsecureCerts', true);
-                return builder.forBrowser(browser).setFirefoxOptions(firefoxBrowserOptions);
+                const firefoxOptions = new FirefoxOptions();
+                firefoxOptions.addArguments(env('FIREFOX_BROWSER_ARGUMENTS'));
+                firefoxOptions.set('acceptInsecureCerts', true);
+                return builder.forBrowser(browser).setFirefoxOptions(firefoxOptions);
             }
             default: {
                 return builder.forBrowser(browser);
