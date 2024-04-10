@@ -1,3 +1,4 @@
+echo 'hello'
 #!/bin/bash
 
 #echo "yarn install react app"
