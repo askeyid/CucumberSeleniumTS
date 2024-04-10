@@ -14,6 +14,6 @@ export NODE_ENV=$env
 
 #run cucumber tests & on failure exit script
 if ! yarn run cucumber --profile $tag; then
-    yarn run postcucumber;
-    exit 1;
+  yarn run postcucumber;
+  exit 1;
 fi
