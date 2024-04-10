@@ -49,4 +49,5 @@ Feature: As a user I can interact with login forms
         Then I am directed to the "playground" page
         And I scroll to the "login form" form
         And I fill in the "email" input with random "email"
+        And I scroll to the "password" input
         And I fill in the "password" input with random "password"

@@ -2,6 +2,7 @@ import { Builder, WebDriver } from 'selenium-webdriver'
 import { World, IWorldOptions, setWorldConstructor } from '@cucumber/cucumber'
 import { Options as FirefoxOptions } from 'selenium-webdriver/firefox'
 import { Options as ChromeOptions } from 'selenium-webdriver/chrome'
+import { Options as EdgeOptions } from 'selenium-webdriver/edge'
 import { env, envNumber } from '../../env/parseEnv'
 import { GlobalConfig, GlobalVariables } from '../../env/global'
 import { stringIsOfOptions } from '../../support/option-helper'
@@ -51,8 +52,8 @@ export class ScenarioWorld extends World {
     }
 
     private newBrowser = async(): Promise<string> => {
-        const automationBrowser = env('UI_AUTOMATION_BROWSER')
-        const automationBrowsers = ['chrome', 'firefox']
+        const automationBrowser = env('UI_AUTOMATION_BROWSER');
+        const automationBrowsers = ['chrome', 'firefox', 'edge'];
         const validAutomationBrowser = stringIsOfOptions(automationBrowser, automationBrowsers);
         return validAutomationBrowser;
     }
@@ -71,14 +72,19 @@ export class ScenarioWorld extends World {
         switch(browser) {
             case 'chrome': {
                 const chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments(env('CHROME_BROWSER_ARGUMENTS'));
+                chromeOptions.addArguments(env('CHROME_ARGUMENTS'));
                 return builder.forBrowser(browser).withCapabilities(chromeOptions);
             }
             case 'firefox': {
                 const firefoxOptions = new FirefoxOptions();
-                firefoxOptions.addArguments(env('FIREFOX_BROWSER_ARGUMENTS'));
+                firefoxOptions.addArguments(env('FIREFOX_ARGUMENTS'));
                 firefoxOptions.set('acceptInsecureCerts', true);
                 return builder.forBrowser(browser).setFirefoxOptions(firefoxOptions);
+            }
+            case 'edge': {
+                const edgeOptions = new EdgeOptions();
+                edgeOptions.addArguments(env('EDGE_ARGUMENTS'));
+                return builder.forBrowser(browser).withCapabilities(edgeOptions);
             }
             default: {
                 return builder.forBrowser(browser);
